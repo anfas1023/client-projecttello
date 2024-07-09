@@ -187,10 +187,10 @@ const TaskDetails = ({
         <div className="flex gap-2 flex-col">
           <h3 className="text-white font-bold text-2xl text-center mb-6">
             Attachements
-          </h3>
+          </h3>  
         </div>
 
-        <div className="w-full h-36 p-2 border border-0 text-white rounded bg-neutral-800 overflow-y-auto">
+        <div className="w-full h-36 p-2 border  text-white rounded bg-neutral-800 overflow-y-auto">
           <div>
             {taskDetails?.attachments.length ? (
               <div className="space-y-2">
