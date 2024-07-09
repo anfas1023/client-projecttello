@@ -1,21 +1,13 @@
-"use client"
-import WorkspcaeSidebar from '@/components/Workspace-sedebar/Workspace-sidebar';
-import React,{useState} from 'react';
-import { useParams } from 'next/navigation';
+"use client";
+
+import React, { ReactNode } from "react";
 
 type Props = {
-  children: React.ReactNode;
-}; 
+  children: ReactNode;
+};
 
-
-
-const BoardLayout = ({ children }: Props) => { 
-
-  return (
-    <>
-{children}
-    </>
-  );
+const BoardLayout: React.FC<Props> = ({ children }) => {
+  return <>{children}</>;
 };
 
 export default BoardLayout;
