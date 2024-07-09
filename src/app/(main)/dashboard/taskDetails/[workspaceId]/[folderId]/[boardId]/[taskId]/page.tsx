@@ -77,7 +77,7 @@ const TaskDetails = ({
     const email = localStorage.getItem("email");
     const userId = localStorage.getItem("userId");
     fetchTask(email, userId as string);
-  }, []);
+  }, [setTask,params.workspaceId,params.folderId,params.boardId]);
 
   const userId = localStorage.getItem("userId");
 
@@ -195,7 +195,7 @@ const TaskDetails = ({
             {taskDetails?.attachments.length ? (
               <div className="space-y-2">
                 {taskDetails.attachments.map((attachment, index) => (
-                  <div className="flex justify-center items-center gap-2">
+                  <div key={index} className="flex justify-center items-center gap-2">
                     <GrAttachment className="text-center text-white" />
                     <a
                       key={index}

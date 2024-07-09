@@ -34,9 +34,9 @@ export function MemberDetails({ workspaceId }: { workspaceId: string }) {
         <div className="grid gap-4 py-4">
           {Workspace.filter(
             (workspace) => workspace.workspaceId === workspaceId
-          ).map((workspace) =>
+          ).map((workspace,index) =>
             workspace.inviteMembers.map((member, index) => (
-              <div className="flex flex-col   items-center">
+              <div key={index} className="flex flex-col   items-center">
                 <WorkspaceMemberDeatails
                   member={member}
                   workspaceId={workspaceId}

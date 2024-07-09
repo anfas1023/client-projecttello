@@ -29,7 +29,7 @@ export function UserDetails({ user }: { user: any }) {
         <div className="grid gap-4 py-4">
           <div className="flex justify-center">
             {user?.profilePhoto ? (
-              <img
+              <Image
                 src={user?.profilePhoto}
                 alt="User Profile"
                 className="rounded-full w-24 h-24"

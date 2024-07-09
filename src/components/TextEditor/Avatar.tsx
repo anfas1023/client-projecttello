@@ -1,6 +1,6 @@
 import { useOthers, useSelf } from ".../../../liveblocks.config";
 import styles from "./Avatars.module.css";
-
+import Image from 'next/image'
 export function Avatars() {
   const users = useOthers();
   const currentUser:any = useSelf();
@@ -28,7 +28,8 @@ export function Avatars() {
 export function Avatar({ picture, name }: { picture: string; name: string }) {
   return (
     <div className={styles.avatar} data-tooltip={name}>
-      <img
+      <Image
+      alt=""
         src={picture}
         className={styles.avatar_picture}
         data-tooltip={name}

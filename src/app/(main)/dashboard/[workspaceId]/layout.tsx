@@ -63,7 +63,7 @@ const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
     fetchAllFolders();
 
     // console.log("params", params.workspaceId);
-  }, []);
+  }, [addFolders,params.workspaceId]);
 
   // console.log("folder", folder);
   // console.log("childrens",childrens);
@@ -107,7 +107,7 @@ const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
     }
 
     fetchBoards();
-  });
+  },[addFolders,params.workspaceId,addBoard]);
 
   return <>{children}</>;
 };

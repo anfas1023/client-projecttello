@@ -5,14 +5,14 @@ import useBearerStore from "@/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function authLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // let userId = useBearerStore((state) => state.config.id);
-  let setuserId = useBearerStore((state) => state.setuserId);
   const router = useRouter();
+  let setuserId = useBearerStore((state) => state.setuserId);
+  
 
 
   const userId = localStorage.getItem("email");
@@ -23,7 +23,7 @@ export default function authLayout({
       
       router.push("/dashboard");
     }
-  }, [userId]); 
+  }, [userId,router]); 
 
   return (
     <>

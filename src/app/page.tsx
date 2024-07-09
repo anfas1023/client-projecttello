@@ -1,4 +1,5 @@
 import { SiGoogledocs } from "react-icons/si";
+import Image from 'next/image'
 export default function Home() {
   return (
     <>
@@ -29,7 +30,7 @@ export default function Home() {
         </div>
 
         <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600  h-[80%] w-[80%] relative my-12 flex justify-center items-center rounded-lg">
-          <img
+          <Image
             className="w-[80%] h-[80%]  object-cover -translate-y-8 "
             src="https://clickup.com/images/clickup-v3/CU_3.0_Teaser_LP_Task_View_Redesign.png"
             alt="Example Image"

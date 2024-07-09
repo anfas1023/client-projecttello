@@ -105,7 +105,7 @@ const DashboardSetUp = ({ onUpdate }: Props) => {
       <CardHeader>
         <CardTitle>Create A Workspace</CardTitle>
         <CardDescription>
-          Let's create a private workspace to get you started. You can add
+          Lets create a private workspace to get you started. You can add
           collaborators later from the workspace setting tab.
         </CardDescription>
       </CardHeader>

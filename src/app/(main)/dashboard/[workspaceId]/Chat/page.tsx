@@ -64,7 +64,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
     return () => {
       socket.off("getMessage");
     };
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const fetchConversation = async () => {
@@ -315,7 +315,8 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
                             {/* <Image height={40} width={40} alt="" src={Avatar} /> */}
 
                             {conversation.user.profilePhoto ? (
-                              <img
+                              <Image
+                              alt=""
                                 className="w-10 h-10 rounded-full "
                                 src={conversation.user.profilePhoto}
                               />
@@ -353,7 +354,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
               <div className="cursor-pointer">
             
               {messages.reciverDetails.profilePhoto ? (
-          <img className="w-10 h-10 rounded-full" src={messages.reciverDetails.profilePhoto} />
+          <Image alt="" className="w-10 h-10 rounded-full" src={messages.reciverDetails.profilePhoto} />
         ) : (
           <Image alt="" src={Avatar} width={40} height={40} className="rounded-full" />
         )}

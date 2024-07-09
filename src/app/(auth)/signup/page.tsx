@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import signUpImage from '../../../../public/images/project-management-tools-illustration-20vwwkbworhkpzff.jpg'
  
-export default function signUp() {
+export default function SignUp() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState("");

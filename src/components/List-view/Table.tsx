@@ -79,7 +79,6 @@ const TableView = ({
     (task) => task.status === "completed"
   ).length;
 
-
   return (
     <>
       <div className="flex  justify-center   bg-workspace-gray">
@@ -149,60 +148,68 @@ const TableView = ({
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {ViewTask.filter((task) => task.status === "Planning").map(
-                      (task) => (
-                        <TableRow>
-                          <TableCell className="font-medium text-white">
-                            <div className="flex gap-3">
-                              {/* <HiOutlineClipboardDocumentList size={40} />  */}
-                              <TaskDetails  task={task} workspaceId={workspaceId} folderId={folderId} boardId={boardId} />
-                            </div>  
-                          </TableCell>
-                          <TableCell className="text-white flex item-center justify-center">
-                            <div className="bg-blue-500 rounded-lg w-20">
-                              <p className="text-center">{task.status}</p>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-white text-center">
-                            {task.endDate}
-                          </TableCell>
-                          <TableCell className=" text-white flex justify-center ">
-                            <div
-                              className={`rounded-lg w-20 ${getPriorityColorClass(
-                                task.priority
-                              )}`}
-                            >
-                              <p className="text-center">{task.priority}</p>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-center text-white">
-                            <div className="flex flex-col">
-                              {task.assignee.map((assignee, index) => (
-                                <div key={index}>{assignee.userName}</div>
-                              ))}
-                            </div>
-                          </TableCell>
+                    {ViewTask.filter(
+                      (task, index) => task.status === "Planning"
+                    ).map((task, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium text-white">
+                          <div  className="flex gap-3">
+                            {/* <HiOutlineClipboardDocumentList size={40} />  */}
+                            <TaskDetails
+                              task={task}
+                              workspaceId={workspaceId}
+                              folderId={folderId}
+                              boardId={boardId}
+                            />
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-white flex item-center justify-center">
+                          <div className="bg-blue-500 rounded-lg w-20">
+                            <p className="text-center">{task.status}</p>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-white text-center">
+                          {task.endDate}
+                        </TableCell>
+                        <TableCell className=" text-white flex justify-center ">
+                          <div
+                            className={`rounded-lg w-20 ${getPriorityColorClass(
+                              task.priority
+                            )}`}
+                          >
+                            <p className="text-center">{task.priority}</p>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-center text-white">
+                          <div className="flex flex-col">
+                            {task.assignee.map((assignee, index) => (
+                              <div key={index}>{assignee.userName}</div>
+                            ))}
+                          </div>
+                        </TableCell>
 
-                          <TableCell className="text-center text-white">
-                            <TableHead className="text-right text-white">
-                              <div className="flex gap-2">
-                                {/* <button className="border py-3 bg-neutral-800 rounded-lg">Edit</button>
+                        <TableCell className="text-center text-white">
+                          <TableHead className="text-right text-white">
+                            <div className="flex gap-2">
+                              {/* <button className="border py-3 bg-neutral-800 rounded-lg">Edit</button>
                           <button className="border py-3 bg-neutral-800 rounded-lg">Del</button> */}
-                                <EditTask
-                                  task={task}
-                                  workspaceId={workspaceId}
-                                  folderId={folderId}
-                                  boardId={boardId}
-                                />
-                                <DeleteTask taskId={task._id} workspaceId={workspaceId}
-                                  folderId={folderId}
-                                  boardId={boardId} />
-                              </div>
-                            </TableHead>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    )}
+                              <EditTask
+                                task={task}
+                                workspaceId={workspaceId}
+                                folderId={folderId}
+                                boardId={boardId}
+                              />
+                              <DeleteTask
+                                taskId={task._id}
+                                workspaceId={workspaceId}
+                                folderId={folderId}
+                                boardId={boardId}
+                              />
+                            </div>
+                          </TableHead>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </AccordionContent>
@@ -279,15 +286,21 @@ const TableView = ({
                   <TableBody>
                     {ViewTask.filter(
                       (task) => task.status === "inProgress"
-                    ).map((task) => (
-                      <TableRow>
+                    ).map((task, index) => (
+                      <TableRow key={index}>
                         <TableCell className="font-medium text-white">
-                        <TaskDetails task={task} workspaceId={workspaceId} folderId={folderId} boardId={boardId} />
-
-                          {/* {task.taskName}  */}
+                          <TaskDetails
+                            task={task}
+                            workspaceId={workspaceId}
+                            folderId={folderId}
+                            boardId={boardId}
+                          />
                         </TableCell>
                         <TableCell className="text-white text-center flex item-center justify-center">
-                          <div className="bg-yellow-500 rounded-lg w-20">
+                          <div
+                            
+                            className="bg-yellow-500 rounded-lg w-20"
+                          >
                             <p className="text-center">{task.status}</p>
                           </div>
                         </TableCell>
@@ -322,9 +335,12 @@ const TableView = ({
                               boardId={boardId}
                             />
 
-<DeleteTask taskId={task._id} workspaceId={workspaceId}
-                                  folderId={folderId}
-                                  boardId={boardId} />
+                            <DeleteTask
+                              taskId={task._id}
+                              workspaceId={workspaceId}
+                              folderId={folderId}
+                              boardId={boardId}
+                            />
                           </div>
                         </TableCell>
                       </TableRow>
@@ -403,14 +419,18 @@ const TableView = ({
                   </TableHeader>
                   <TableBody>
                     {ViewTask.filter((task) => task.status === "completed").map(
-                      (task) => (
-                        <TableRow>
+                      (task,index) => (
+                        <TableRow key={index}>
                           <TableCell className="font-medium text-white">
-                                                         <TaskDetails task={task} workspaceId={workspaceId} folderId={folderId} boardId={boardId} />
-
+                            <TaskDetails
+                              task={task}
+                              workspaceId={workspaceId}
+                              folderId={folderId}
+                              boardId={boardId}
+                            />
                           </TableCell>
                           <TableCell className="text-white text-center flex justify-center">
-                            <div className="bg-green-500 rounded-lg w-20">
+                            <div   className="bg-green-500 rounded-lg w-20">
                               <p className="text-center">{task.status}</p>
                             </div>
                           </TableCell>
@@ -437,9 +457,12 @@ const TableView = ({
                                 boardId={boardId}
                               />
 
-<DeleteTask taskId={task._id} workspaceId={workspaceId}
-                                  folderId={folderId}
-                                  boardId={boardId} />
+                              <DeleteTask
+                                taskId={task._id}
+                                workspaceId={workspaceId}
+                                folderId={folderId}
+                                boardId={boardId}
+                              />
                             </div>
                           </TableCell>
                         </TableRow>

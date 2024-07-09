@@ -17,8 +17,8 @@ export default function page() {
             industry.
           </p>
           <p className="text-center">
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley{" "}
+            Lorem Ipsum has been the industrys standard dummy text ever since
+            the 1500s, when an unknown printer took a galley
           </p>
           
         </div>

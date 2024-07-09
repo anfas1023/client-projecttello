@@ -130,7 +130,7 @@ export default function RootLayout({
       // console.error("User ID not found in localStorage");
       // router.push('/login')
   
-  }, []);
+  }, [addWorkspace]);
 
   useEffect(() => {
     async function fetchInvitedWorkspace() {
@@ -177,7 +177,7 @@ export default function RootLayout({
       // router.push('/login');
       console.error("Email not found in localStorage");
    
-  }, []);
+  }, [addWorkspace]);
 
   const handleUpdate = (data: WorkspaceType) => {
     setWorkSpace([data]);

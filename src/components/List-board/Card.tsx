@@ -120,7 +120,7 @@ const CardPage = ({ workspaceId, boardId, folderId }: Props) => {
     const email = localStorage.getItem("email");
     const userId = localStorage.getItem("userId");
     fetchTask(email, userId as string);
-  }, []);
+  }, [boardId,folderId,setTask,workspaceId]);
 
   const [inProgress, setInProgress] = useState(false);
   const [inComplete, setInComplete] = useState(false);
@@ -360,6 +360,7 @@ const CardPage = ({ workspaceId, boardId, folderId }: Props) => {
                       .filter((task) => task.status === "Planning")
                       .map((task, index) => (
                         <div
+                        key={index}
                           draggable
                           onDragStart={() => handleDragStart(task.status)}
                           onDragEnter={() => handleDragEnter("Planning")}
@@ -478,6 +479,7 @@ const CardPage = ({ workspaceId, boardId, folderId }: Props) => {
                     .filter((task) => task.status === "inProgress")
                     .map((task, index) => (
                       <div
+                      key={index}
                         draggable
                         onDragStart={() => handleDragStart(task.status)}
                         onDragEnter={() => handleDragEnter("inProgress")}
@@ -601,6 +603,7 @@ const CardPage = ({ workspaceId, boardId, folderId }: Props) => {
                     .filter((task) => task.status === "completed")
                     .map((task, index) => (
                       <div
+                      key={index}
                         draggable
                         onDragStart={() => handleDragStart(task.status)}
                         onDragEnter={() => handleDragEnter("completed")}

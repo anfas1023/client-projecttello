@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
+import { ImageBlock } from "@blocknote/core"
+import Image from 'next/image'
 export function ImagePreviewTask({previewImage}:{previewImage:string}) {
    const renderPreview = (attachment: string, orginalName: string) => {
     if (orginalName.endsWith(".pdf")) {
@@ -28,7 +29,7 @@ export function ImagePreviewTask({previewImage}:{previewImage:string}) {
       );
     } else {
       return (
-        <img
+        <Image
           alt="Preview"
           src={attachment}
           width={500}
@@ -41,14 +42,14 @@ export function ImagePreviewTask({previewImage}:{previewImage:string}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-      <img alt="Preview" src={previewImage} width={100} height={100} className="" />
+      <Image alt="Preview" src={previewImage} width={100} height={100} className="" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[40%] bg-custom-zinc">
         <DialogHeader>
         </DialogHeader>
         <div className="grid gap-4 py-4">
 
-          <img alt="Preview" src={previewImage} width={550} height={550} className="" />
+          <Image alt="Preview" src={previewImage} width={550} height={550} className="" />
           
         </div>
         <DialogFooter>

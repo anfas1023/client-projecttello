@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { FiFileText } from "react-icons/fi";
+import Image from 'next/image'
 
 export function ImagePreview({ previewImage }: { previewImage: string }) {
   const renderPreview = (attachment: string) => {
@@ -22,7 +23,7 @@ export function ImagePreview({ previewImage }: { previewImage: string }) {
       );
     } else {      
       return (
-        <img
+        <Image
           alt="Preview"
           src={attachment}
           width={500}
@@ -43,7 +44,7 @@ console.log("previewImage",previewImage);
             <span className="ml-2">View Document</span>
           </div>
         ) : (
-          <img
+          <Image
             alt="Preview"
             src={previewImage}
             width={100}

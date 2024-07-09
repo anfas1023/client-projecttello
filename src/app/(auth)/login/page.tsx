@@ -133,7 +133,7 @@ export default function Login() {
                   <Button className="px-28 bg-blue-900">{loading ? "Loading..." :"Login"}</Button>
                   <div className="flex gap-3">
                     <p className="text-gray-600 underline font-medium">
-                      Don't Have An Account?{" "}
+                      Dont Have An Account?
                     </p>
                     <Link href="/signup">
                       <span className="text-indigo-500 font-semibold no-underline">

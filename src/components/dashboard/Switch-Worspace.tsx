@@ -175,7 +175,7 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
             </div>
           ) : (
             Workspace.map((workspace, index) => (
-              <div className=" group flex justify-between items-center">
+              <div key={index} className=" group flex justify-between items-center">
                 <h3
                   className="text-white text-xl hover:cursor-pointer hover:text-lime-600"
                   onClick={() => handleClick(workspace.workspaceId)}

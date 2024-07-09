@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { HiDocumentArrowUp } from "react-icons/hi2";
+import Image from 'next/image'
 
 export function AttachementPreview({
   attachement,
@@ -28,8 +29,6 @@ export function AttachementPreview({
       return (
         <embed
           src={attachment}
-        
-          type="application/pdf"
           width="500px"
           height="400px"
           className="rounded-lg ml-48"
@@ -37,7 +36,7 @@ export function AttachementPreview({
       );
     } else {
       return (
-        <img
+        <Image
           alt="Preview"
           src={attachment}
           width={500}
@@ -50,8 +49,6 @@ export function AttachementPreview({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {/* <Button variant="outline">Edit Profile</Button> */}
-        {/* <img height={40} width={40} alt="Image" src={attachement} /> */}
         <div className="flex gap-2 mt-3  rounded-md cursor-pointer border h-10 w-4/5">
   <HiDocumentArrowUp />
   <p className="text-white">{orginalName}</p>

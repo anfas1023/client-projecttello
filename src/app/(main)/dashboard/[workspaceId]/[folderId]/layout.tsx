@@ -13,7 +13,7 @@ type Params={
   boardId:string
 }
 
-const folderLayout = ({ workspaceId, children }: Props) => {
+const FolderLayout = ({ workspaceId, children }: Props) => {
   const params :Params=useParams()
     console.log("params",params);
   return (
@@ -31,4 +31,4 @@ const folderLayout = ({ workspaceId, children }: Props) => {
   );
 };
 
-export default folderLayout;
+export default FolderLayout;

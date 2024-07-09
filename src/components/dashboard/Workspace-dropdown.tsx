@@ -19,7 +19,7 @@ const Workspacedropdown = () => {
         <ul>
           {/* Mapping over the workspaces */}
           {workspacesFromStore.map((workspace, index) => (
-            <Accordion type="single" collapsible>
+            <Accordion key={index} type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger>{workspace.workspacename}</AccordionTrigger>
                 <AccordionContent>

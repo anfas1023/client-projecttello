@@ -196,7 +196,7 @@ const TaskDialog = ({
       );
     } else {
       return (
-        <img
+        <Image
           alt="Preview"
           src={attachment}
           width={100}
