@@ -29,7 +29,7 @@ export type WorkspaceType = {
   userId: string;
   description: string;
 };
-const AddWorkspace = () => {
+const AddWorkspace = () => {      
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [workspace, setWorkspace] = useState<Space>({     
