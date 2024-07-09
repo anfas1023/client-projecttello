@@ -32,7 +32,7 @@ export type WorkspaceType = {
 const AddWorkspace = () => {
   const router = useRouter();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [workspace, setWorkspace] = useState<Space>({
+  const [workspace, setWorkspace] = useState<Space>({     
     workspacename: "",
     description: "",
   });

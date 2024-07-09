@@ -56,10 +56,6 @@ export function AddAttachements({taskId}:{taskId:string}) {
 
           addAttachements(taskId,response.data);
           setLoading(false)
-
-
-          //     // addTask(response.data)
-          // console.log("ViewTask",ViewTask);
         }
         setSelectedFile(null);
       } catch (error) {
