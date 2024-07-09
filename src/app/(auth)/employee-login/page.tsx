@@ -17,7 +17,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useSearchParams } from 'next/navigation'
-export default function signUp() {
+export default function SignUp() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email : string | null = searchParams.get('email');
