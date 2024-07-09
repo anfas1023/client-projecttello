@@ -13,7 +13,9 @@ const Boards= ({params}:{params:{boardId:string,workspaceId:string,folderId:stri
  
     <>
   
-   <CardPage workspaceId={params.workspaceId} boardId={params.boardId} folderId={params.folderId} />
+ 
+  <CardPage workspaceId={params.workspaceId} boardId={params.boardId} folderId={params.folderId} />
+
   
  
 

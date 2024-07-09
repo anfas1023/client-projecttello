@@ -25,11 +25,20 @@ type BearerState = {
   setImageUrl: (imageUrl: string) => void;
 };
 
+
+
 type WorkspaceType = {
   workspaceId: string;
   workspacename: string;
   description?: string;
   userId: string;
+  inviteMembers:{email:string,role:string,userId:string,userName:string}[]
+  workpspaceOwner:{
+    email:string;
+    role:string;
+    ownerId:string,
+    userName:string
+  }
 };
 
 type WorkspaceState = {
@@ -118,6 +127,7 @@ export type Folder = {
   folderName: string;
   folderId: string;
   workspaceId: string;
+  trash:boolean;
 };
 
 // Define the FolderState type
@@ -126,6 +136,7 @@ type FolderState = {
   addFolder: (folder: Folder) => void;
   updateFolder: (folder: Folder) => void;
   deleteFolder: (folderId: string) => void;
+  setTrash: (folderId: string, trash: boolean) => void;
 };
 
 export const useFolderStore = create<FolderState>((set) => ({
@@ -154,6 +165,13 @@ export const useFolderStore = create<FolderState>((set) => ({
   deleteFolder: (folderId) =>
     set((state) => ({
       folders: state.folders.filter((folder) => folder.folderId !== folderId),
+    })),
+
+   setTrash: (folderId, trash) =>
+    set((state) => ({
+      folders: state.folders.map((folder) =>
+        folder.folderId === folderId ? { ...folder, trash } : folder
+      ),
     })),
 }));
 

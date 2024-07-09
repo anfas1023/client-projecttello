@@ -1,8 +1,15 @@
 import { create } from 'zustand';
 
-export type taskType = {
+interface Assigne {
+  userName: string;
+  email: string;
+  userId: string;
+  role: string;
+}
+
+export type TaskType = {
   status: string;
-  assigne: string[];
+  assigne: Assigne[];
   startDate: string;
   endDate: string;
   priority: string;
@@ -10,12 +17,10 @@ export type taskType = {
   taskname: string;
 };
 
-
-
-export type useTaskType = {
-  task: taskType;
+export type UseTaskType = {
+  task: TaskType;
   setStatus: (status: string) => void;
-  setAssigne: (assigne: string[]) => void;
+  addAssigne: (assigne: Assigne) => void;
   setStartDate: (startDate: string) => void;
   setEndDate: (endDate: string) => void;
   setPriority: (priority: string) => void;
@@ -23,7 +28,7 @@ export type useTaskType = {
   setTaskName: (taskname: string) => void;
 };
 
-const useListTaskStore = create<useTaskType>((set) => ({
+const useListTaskStore = create<UseTaskType>((set) => ({
   task: {
     status: '',
     assigne: [],
@@ -34,10 +39,7 @@ const useListTaskStore = create<useTaskType>((set) => ({
     taskname: '',
   },
   setStatus: (status) => set((state) => ({ task: { ...state.task, status } })),
-  setAssigne: (emails) => set((state) => {
-    const assigne = Array.isArray(emails) ? emails : [emails];
-    return { task: { ...state.task, assigne } };
-  }),
+  addAssigne: (assigne) => set((state) => ({ task: { ...state.task, assigne: [...state.task.assigne, assigne] } })),
   setStartDate: (startDate) => set((state) => ({ task: { ...state.task, startDate } })),
   setEndDate: (endDate) => set((state) => ({ task: { ...state.task, endDate } })),
   setPriority: (priority) => set((state) => ({ task: { ...state.task, priority } })),

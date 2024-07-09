@@ -6,21 +6,30 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardSetUp from "@/components/dashboard/dashboard-setup";
 import { useRouter } from "next/navigation";
-
+import {toast} from 'sonner'
 import { Toaster } from "@/components/ui/sonner";
 import { WorkspaceStore } from "@/store";
 import SideNavbar from "@/components/dashboard/SideNav";
 import { usePathname } from "next/navigation";
-import WorkspcaeSidebar from '../../../components/Workspace-sedebar/Workspace-sidebar'
+import WorkspcaeSidebar from "../../../components/Workspace-sedebar/Workspace-sidebar";
 
-
+// import { cn } from '@/lib/utils';
+// import { Loader2 } from 'lucide-react';
+import { Spinner } from "@material-tailwind/react";
 const inter = Inter({ subsets: ["latin"] });
 export type WorkspaceType = {
   workspacename: string;
   userId: string;
   description: string;
-  workspaceId:string; 
-  _id:string;
+  workspaceId: string;
+  _id: string;
+  inviteMembers:{email:string,role:string,userId:string,userName:string}[],
+  workspaceOwner:{
+    email:string,
+    userName:string,
+    role:string,
+    ownerId:string
+  }
 };
 
 const metadata: Metadata = {
@@ -33,119 +42,191 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [workspace, setWorkSpace] = useState();
-  const router=useRouter()
-const setWorkspaceName=WorkspaceStore((state)=>state.setWorkspaceName)
-const setuserId=WorkspaceStore((state)=>state.setUserId)
-const setDescription=WorkspaceStore((state)=>state.setDescription)
-const addWorkspace=WorkspaceStore((state)=>state.addWorkspace)
-const Workspaces=WorkspaceStore((state)=>state.workspaces)
+  const [workspace, setWorkSpace] = useState<WorkspaceType[] | null>(null);
+  const router = useRouter();
+  const setWorkspaceName = WorkspaceStore((state) => state.setWorkspaceName);
+  const setuserId = WorkspaceStore((state) => state.setUserId);
+  const setDescription = WorkspaceStore((state) => state.setDescription);
+  const addWorkspace = WorkspaceStore((state) => state.addWorkspace);
+  const Workspaces = WorkspaceStore((state) => state.workspaces);
 
-const pathname = usePathname();
-const showSidebar = pathname === '/dashboard';
+  const pathname = usePathname();
+  const showSidebar = pathname === "/dashboard";
+  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    // console.log("in useEffect");
-    
-    async function fetchWorkspace(userId: string | null) {
-      // Corrected typo
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/workspace/getAllWorkspace/${userId}`
-        );
-        // console.log("response.data",response.data);
-        // setWorkSpace(response.data);
-        // setWorkspaceName(response.data.workspacename);
-        // setuserId(response.data.userId)
-        // setDescription(response.data.description)
-
-        response.data.forEach((workspace:WorkspaceType) => {
-          addWorkspace({
-            workspacename: workspace.workspacename,
-            userId: workspace.userId,
-            description: workspace.description,
-            workspaceId:workspace._id
-          });
-        });
-
-      } catch (error) {
-        console.error("Error fetching workspace:", error);
-      }
-    }
-    const userId = localStorage.getItem("userId");
-    if (userId) {
-      fetchWorkspace(userId); // Corrected function call
-    } else {
-      console.error("User ID not found in localStorage");
-    }
-  }, []);
-
-  // console.log("Workspaces", Workspaces);
-
-  // useEffect(()=>{
-  //   if(workspace){
-  //     router.push('/dashboard')
-  //   }
-  // },[workspace])
-  const handleUpdate=(data :any)=>{
-    setWorkSpace(data)
-  }
-
+  const userId=localStorage.getItem('userId');
 
 
 
   useEffect(()=>{
 
- async function fetchInvitedWorkspace(email:string){
+  async  function fetchUserData(){
+      try{
+  const response=await axios.get('http://localhost:5000/fetchUser',{
+    withCredentials:true
+  })
 
+  if(response.data){
+    localStorage.setItem("userId",response.data.userId);
+    localStorage.setItem("email",response.data.email);
+    localStorage.setItem("username",response.data.username);
+  return
+  }
+
+      }catch(error){
+        if (axios.isAxiosError(error) && error.response?.data) {
+          toast.error(error.response.data.error, { position: "top-left" });
+        } else {
+          console.log("An unexpected error occurred:", error);
+        }
+      
+      }
+    }
+    const userId=localStorage.getItem("userId");
+    const email=localStorage.getItem("email");
+    const username=localStorage.getItem("username")
+
+    if(!userId && !email && !username ){
+      fetchUserData();
+    }
+   
+  },[])
+
+  useEffect(() => {
+    async function fetchWorkspace(userId: string | null) {
       try {
+        setLoading(true);
+        console.log("here1");
         const response = await axios.get(
-          `http://localhost:5000/workspace/getAllWorkspaceByInvitedMembers/${email}`
+          `http://localhost:5000/workspace/getAllWorkspace/`,{
+            withCredentials:true
+          }
         );
 
-        if(response){
-          response.data.forEach((workspace:WorkspaceType) => {
+        response.data.forEach((workspace: WorkspaceType) => {
+          addWorkspace({
+            workspacename: workspace.workspacename,
+            userId: workspace.userId,
+            description: workspace.description,
+            workspaceId: workspace._id,
+            inviteMembers:workspace.inviteMembers,
+            workpspaceOwner:workspace.workspaceOwner
+          
+          });
+        });
+        console.log("response1",response.data)
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching workspace:", error);
+        setLoading(false);
+      }
+    }
+
+    const userId = localStorage.getItem("userId");
+   
+
+      fetchWorkspace(userId);
+  
+      // console.error("User ID not found in localStorage");
+      // router.push('/login')
+  
+  }, []);
+
+  useEffect(() => {
+    async function fetchInvitedWorkspace() {
+      try {
+        setLoading(true);
+        console.log("here1");
+        
+        const response = await axios.get(
+          `http://localhost:5000/workspace/getAllWorkspaceByInvitedMembers/`,
+          {
+            withCredentials:true
+          }
+        );
+
+        console.log("here11");
+
+
+        if (response) {
+          response.data.forEach((workspace: WorkspaceType) => {
             addWorkspace({
               workspacename: workspace.workspacename,
               userId: workspace.userId,
               description: workspace.description,
-              workspaceId:workspace._id
+              inviteMembers:workspace.inviteMembers,
+              workspaceId: workspace._id,
+              workpspaceOwner:workspace.workspaceOwner
             });
           });
         }
+        console.log("response2",response.data)
+
+        setLoading(false);
       } catch (error) {
-        
+       
+        console.error("Error fetching invited workspaces:", error); 
+        setLoading(false); 
       }
-
     }
-   const email = localStorage.getItem("email");
-   if(email){
-    fetchInvitedWorkspace(email)
-   }else{
-    console.log("No user id");
-    
-   }
-  },[])
+
+    const email = localStorage.getItem("email");
+ 
+      fetchInvitedWorkspace();
+
+      // router.push('/login');
+      console.error("Email not found in localStorage");
+   
+  }, []);
+
+  const handleUpdate = (data: WorkspaceType) => {
+    setWorkSpace([data]);
+  };
 
 
+  // console.log("Workspaces",Workspaces);
+
+
+  
+  // if(!userId){
+  //   console.log("working here");
+  //   return router.replace('/login');
+  // }
+
+  const [isOpen, setIsOpen] = useState(true);
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-   <>
+    <>
       <Toaster />
-      {!Workspaces[0] ? (
-        <div className="bg-zinc-900 h-screen w-screen flex justify-center items-center">
-          <DashboardSetUp  onUpdate={handleUpdate}/>
-        </div>
-      ) : (
-        <>
-          <div className="flex">
-            {showSidebar && <WorkspcaeSidebar workspaceId={Workspaces[0].workspaceId}  />}
-            {children}
-          </div>
-        </>
-      )}
+      {
+        !userId && router.replace('/login')
+      }
 
-</>
-  
+      {loading ? (
+        <div className=" h-screen bg-workspace-gray flex justify-center items-center">
+          {/* <p className="text-white">Loading.</p> */}
+          <div
+            className="inline-block text-red-700 h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      ) : !Workspaces[0] ? (
+<div className="bg-zinc-900 w-full h-screen flex justify-center items-center">
+  <DashboardSetUp onUpdate={handleUpdate} />
+</div>
+
+      ) : (
+        <div className="flex">
+          {children}
+        </div>
+      )}
+    </>
   );
 }

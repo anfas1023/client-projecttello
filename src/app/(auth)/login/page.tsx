@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,10 +18,11 @@ import Link from "next/link";
 import { toast } from "sonner";
 import useBearerStore from "@/store";
 import axiosInstance from '../../../lib/axios'
+import LoginImage from '../../../../public/images/project-management-tools-illustration-20vwwkbworhkpzff.jpg'
 export default function Login() {
   const setUserId=useBearerStore((state)=>state.setuserId)
   const setEmail=useBearerStore((state)=>state.setEmail)
-
+  const [loading,setLoading]=useState(false)
   const setUsername=useBearerStore((state)=>state.setUsername)
 
   const handleGoogleLogin = () => {
@@ -33,16 +34,26 @@ export default function Login() {
   };
 
   const router = useRouter();
+
+  const userId=localStorage.getItem("userId");
+  if(userId){
+    console.log("onLogin",userId); 
+    
+    return  router.push('/dashboard');  
+  }
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
     const email = formdata.get("email");
     const password = formdata.get("password");
+   
 
     const data = {
       email,
       password,
     };
+
+    setLoading(true)
 
     // console.log(email, password);
     try {
@@ -52,6 +63,7 @@ export default function Login() {
       if (response) {
         // console.log("response",response.data);
         // localStorage.setItem('userId',)
+        setLoading(false)
         toast.success("Login Completed", {
           position: "top-left",
         });
@@ -65,7 +77,7 @@ export default function Login() {
 
         setUserId(response.data.userId)
         setEmail(response.data.email)
-        setUsername(response.data.username)
+        setUsername(response.data.username);
 
         router.replace("/dashboard");
       }
@@ -81,7 +93,7 @@ export default function Login() {
   return (
     <>
       <div className="w-full  flex items-start justify-start ">
-        <div className="h-screen w-5/12  flex flex-col  items-center justify-center">
+        <div className="mt-10 w-5/12  flex flex-col  items-center justify-center">
           <Card className="w-full max-w-md h-4/5 ">
             <CardHeader>
               <CardTitle className="text-center p-3">Welcome Back!</CardTitle>
@@ -119,7 +131,7 @@ export default function Login() {
                   </Link>
                 </div>
                 <CardFooter className="flex flex-col justify-center gap-5 items-center">
-                  <Button className="px-28 bg-blue-900">Login</Button>
+                  <Button className="px-28 bg-blue-900">{loading ? "Loading..." :"Login"}</Button>
                   <div className="flex gap-3">
                     <p className="text-gray-600 underline font-medium">
                       Don't Have An Account?{" "}
@@ -147,10 +159,10 @@ export default function Login() {
         </div>
         <div className="h-screen">
           <Image
-           src={`https://source.unsplash.com/random/?tech&q=100&t=${Date.now()}`}
+           src={LoginImage}
             className="h-full  object-cover"
             width={900}
-            height={490}
+            height={240}
             alt="Images"
           ></Image>
         </div>

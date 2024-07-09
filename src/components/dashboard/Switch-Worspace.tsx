@@ -22,7 +22,9 @@ import { CiEdit } from "react-icons/ci";
 import axios from "axios";
 import { toast } from "sonner";
 import axiosInstance from "@/lib/axios";
-
+import InviteMembers from "../Workspace-sedebar/InviteMembers";
+import { MdOutlineOpenInNew } from "react-icons/md";
+import { MemberDetails } from "./WorkspaceMembers";
 type Props = {
   workspacename: string | undefined;
 };
@@ -81,13 +83,20 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
       if(response) {
         setInputOpen(!inputOpen)
         // console.log("response",response.data);   
-        const workspaceData={
+        let workspaceData;
+         workspaceData={
           workspaceId:response.data._id,
           workspacename:response.data.workspacename,
           description:response.data.description,
-          userId:response.data.userId
+          userId:response.data.userId,
+          inviteMembers:response.data.inviteMembers,
+          workpspaceOwner:response.data.response.data
         }
         // console.log("workspaceData",workspaceData); 
+
+     
+            
+        
         
         updateWorkspace(workspaceData) 
         
@@ -115,12 +124,12 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
           {workspacename}
         </button>
       </DialogTrigger>
-      <DialogContent className="h-screen block sm:h-[440px] overflow-scroll w-full p-6 sm:p-8 bg-white rounded-lg shadow-lg sm:max-w-2xl mx-auto">
+      <DialogContent className="h-screen block sm:h-[440px] overflow-scroll w-full p-6 sm:p-8 bg-chat rounded-lg shadow-lg sm:max-w-2xl mx-auto">
         <DialogHeader>
-          <DialogTitle className="text-gray-800 text-xl text-center font-semibold mb-4">
+          <DialogTitle className="text-white text-xl text-center font-semibold mb-4">
             Workspaces
           </DialogTitle>
-          <DialogDescription className="text-gray-600 text-center mb-10">
+          <DialogDescription className="text-white text-center mb-10">
             {inputOpen
               ? "Edit Your Workpspace"
               : "Select a workspace to switch to that workspace"}
@@ -151,13 +160,17 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
             Workspace.map((workspace, index) => (
               <div className=" group flex justify-between items-center">
                 <h3
-                  className="text-gray-800 text-xl hover:cursor-pointer hover:text-lime-600"
+                  className="text-white text-xl hover:cursor-pointer hover:text-lime-600"
                   onClick={() => handleClick(workspace.workspaceId)}
                   key={index}
                 >
                   {workspace.workspacename}
                 </h3>
                 <div className="flex ">
+                <p>
+                    {" "}
+<MemberDetails workspaceId={workspace.workspaceId} />
+                  </p>
                   <p>
                     {" "}
                     <MdDeleteOutline

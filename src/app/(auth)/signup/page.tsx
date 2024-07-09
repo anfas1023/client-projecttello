@@ -16,7 +16,8 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
+import signUpImage from '../../../../public/images/project-management-tools-illustration-20vwwkbworhkpzff.jpg'
+ 
 export default function signUp() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -24,6 +25,7 @@ export default function signUp() {
   const [phonenumberError, setphoneError] = useState("");
   const [password, setPassword] = useState("");
   const [ConfirmError, setConfirmError] = useState("");
+  const [loading,setLoading] =useState(false)
 
   const validateEmail = (email: string) => {
     // Regular expression for validating email
@@ -97,13 +99,14 @@ try {
     password,
     phonenumber,
   };
+  setLoading(true)
   const response = await axios.post("http://localhost:5000/signup", data);
 
   console.log(response.data);
-  localStorage.setItem("email", email as string);
+  // localStorage.setItem("email", email as string);
   if (response) {
     console.log("hereee");
-
+    setLoading(false)
     toast("OTP", {
       description: "OTP sent to gmail sucessfully",
       action: {
@@ -112,7 +115,7 @@ try {
       },
     });
 
-    router.replace("/otp");
+    router.replace("/sucess");
   }
 } catch (error) {
   console.log("error",error);
@@ -170,7 +173,7 @@ try {
                       name="email"
                       className="p-5  bg-gray-200"
                       id="email"
-                      placeholder="Enter your Password.."
+                      placeholder="Enter your Email.."
                     />
                     {emailError && (
                       <p className="text-red-700 text-left text-sm font-semibold ">
@@ -185,7 +188,7 @@ try {
                       name="phonenumber"
                       className="p-5 bg-gray-200"
                       id="Phonenumber"
-                      placeholder="Enter your Password.."
+                      placeholder="Enter your phonenumber.."
                     />
                     {phonenumberError && (
                       <p className="text-red-700 text-left text-sm font-semibold ">
@@ -201,7 +204,7 @@ try {
                       name="password" 
                       id="Password"
                       className="p-5 bg-gray-200"
-                      placeholder="Enter Your Username.."
+                      placeholder="Enter Your password.."
                     />
                     {password && (
                       <p className="text-red-700 text-left text-sm font-semibold ">
@@ -218,7 +221,7 @@ try {
                       name="confirmpassword"
                       id="Password"
                       className="p-5 bg-gray-200"
-                      placeholder="Enter Your Username.."
+                      placeholder="Enter Confirmpassword.."
                     />
 
                     {ConfirmError && (
@@ -229,7 +232,7 @@ try {
                   </div>
 
                   <CardFooter className="flex flex-col justify-center gap-5 items-center">
-                    <Button className="px-28 bg-blue-900">SignUp</Button>
+                    <Button className="px-28 bg-blue-900">{loading ? "Loading..." :"SignUp"}</Button>
                   </CardFooter>
                 </div>
               </form>
@@ -238,7 +241,7 @@ try {
         </div>
         <div className=" h-screen">
         <Image
-           src={`https://source.unsplash.com/random/?tech&q=100&t=${Date.now()}`}
+           src={signUpImage}
             className="h-full  object-cover"
             width={900}
             height={490}

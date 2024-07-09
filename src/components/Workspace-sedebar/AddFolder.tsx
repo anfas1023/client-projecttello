@@ -51,7 +51,8 @@ export default function AddFolders({ workspaceId }: { workspaceId: string }) {
 addFolder({
   folderId:response.data._id,
   workspaceId:response.data.workspaceId,
-  folderName:response.data.folderName
+  folderName:response.data.folderName,
+  trash:response.data.trash
 })
         
 
@@ -69,7 +70,12 @@ addFolder({
           toast.error("Folder already exists", {
             position: "top-left",
           });
-        } else {
+        } else if(error.response.status===401){
+          toast.error("token expired logout", {
+            position: "top-left",
+          });
+        } 
+         else {
           toast.error("Folder already exists", {
             position: "top-left",
           });

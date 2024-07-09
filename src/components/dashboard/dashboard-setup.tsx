@@ -38,16 +38,22 @@ const DashboardSetUp = ({ onUpdate }: Props) => {
     const workspacename = formdata.get("name");
     const description = formdata.get("description");
     const userId = localStorage.getItem("userId");
+    const email=localStorage.getItem("email");
+    const username=localStorage.getItem("username");
     if(isPrivate){
       setState('private')
     }else{
       setState('public')
     }
 
+
+
     const data = {
       workspacename,
       description,
       userId,
+      email,
+      username
     };
 
     console.log(data);
@@ -71,6 +77,8 @@ const DashboardSetUp = ({ onUpdate }: Props) => {
           userId: response.data.userId,
           description: response.data.description,
           workspaceId: response.data._id,
+          inviteMembers:response.data.inviteMembers,
+          workpspaceOwner:response.data.workspaceOwner
         });
         // setWorkspaceName(response.data.workspacename);
         // setuserId(response.data.userId)
@@ -93,7 +101,7 @@ const DashboardSetUp = ({ onUpdate }: Props) => {
   };
 
   return (
-    <Card className="w-[900px] h-screen sm:h-auto">
+    <Card className="w-[900px]  sm:h-auto">
       <CardHeader>
         <CardTitle>Create A Workspace</CardTitle>
         <CardDescription>
@@ -125,8 +133,7 @@ const DashboardSetUp = ({ onUpdate }: Props) => {
               />
             </div>
             <div className="flex items-center space-x-2">
-      {/* <Switch id="airplane-mode"  onClick={(e)=>handleSwitchChange(e)} />
-      <Label htmlFor="airplane-mode">Make Private</Label> */}
+
     </div>
             <Button className="px-28 bg-blue-900">Create A Workspace</Button>
           </div>

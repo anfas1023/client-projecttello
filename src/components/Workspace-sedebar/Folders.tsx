@@ -21,8 +21,10 @@ import { EditFolder } from "./EditFolder";
 export default function Folders({ workspaceId }: { workspaceId: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const folders = useFolderStore((state) => state.folders);
-  const deleteFolder=useFolderStore((state)=>state.deleteFolder)
-  const addBoard=useBoardStore((state)=>state.addBoard)
+  const deleteFolder = useFolderStore((state) => state.deleteFolder);
+  const addBoard = useBoardStore((state) => state.addBoard);
+  const folder = useFolderStore((state) => state.folders);
+  const setTrash = useFolderStore((state) => state.setTrash);
 
   // Function to toggle accordion
   // const toggleAccordion = () => {
@@ -53,76 +55,103 @@ export default function Folders({ workspaceId }: { workspaceId: string }) {
           position: "top-left",
         });
 
-        console.log("responsesss",response.data);
+        console.log("responsesss", response.data);
 
         addBoard({
-          boardName:response.data.
-          boardName,
-          folderId:response.data.folderId,
-          workspaceId:response.data.workspaceId,
-          id:response.data._id,
-          togglVisibilit:false
-        })
-        
+          boardName: response.data.boardName,
+          folderId: response.data.folderId,
+          workspaceId: response.data.workspaceId,
+          id: response.data._id,
+          togglVisibilit: false,
+        });
       }
     } catch (error) {
-      console.log(error);
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 401) {
+          toast.error("token expired logout", { position: "top-left" });
+        } else {
+          toast.error("Error", { position: "top-left" });
+        }
+      } else {
+        toast.error("An unexpected error occured", { position: "top-left" });
+      }
     }
   };
 
+  const handlemoveToTrash = async (folderId: string) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/folders/moveToTrash/${folderId}`,{},
+        {
+          withCredentials: true,
+        }
+      );
 
-  const handleDeleteFolder=async(folderId:string)=>{
-   try {
-    const response=await axios.delete(`http://localhost:5000/folders/deleteFolder/${folderId}`)
+      if (response) {
+        // console.log("response",response.data);
 
-    if(response){
+        // deleteFolder(folderId);
 
-      // console.log("response",response.data);    
+        setTrash(folderId, true);
 
-      deleteFolder(folderId);
-      
+        toast.success("Folder Moved To trash", {
+          position: "top-left",
+        });
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        
+        if (error.response.status === 401) {
+          toast.error("token expired logout", { position: "top-left" });
+        } else {
+          toast.error("Error", { position: "top-left" });
+        }
+      } else {
+        toast.error("An unexpected error occured", { position: "top-left" });
+      }
     }
+  };
 
-
-   } catch (error) {
-    
-   }
-  }
+  // console.log("folder",folder);
 
   return (
     <>
       {folders
-  .filter(folder => folder.workspaceId === workspaceId)
-  .map((folder, index) => (
-    <Accordion key={index} type="single" collapsible>
-      <AccordionItem value={`item-${index}`}>
-        <div className="group flex items-center justify-around hover:bg-workspace-gray ">
-          <div className="flex items-center ">
-            <AccordionTrigger className="text-slate-500 flex gap-3   hover:no-underline">
-              <IoIosArrowForward size={15} className="text-slate-500  " />
-              <LuFolder size={15} className="text-slate-500 " />
-              {folder.folderName}
-            </AccordionTrigger>
-          </div>
-          <PlusIcon
-            onClick={(event) => addBoards(folder.folderId, event)}
-            className="text-slate-500"
-            size={15}
-          />
-          <MdDeleteOutline onClick={() => handleDeleteFolder(folder.folderId)} className=" text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-          <EditFolder folderId={folder.folderId} />
-        </div>
-        <AccordionContent className="text-right">
-          <ListOfBoard
-            folderId={folder.folderId}
-            workspaceId={folder.workspaceId}
-            foldername={folder.folderName}
-          />
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  ))}
+        .filter((folder) => folder.workspaceId === workspaceId)
+        .filter((folder) => folder.trash !== true)
+        .map((folder, index) => (
+          <Accordion key={index} type="single" collapsible>
+            <AccordionItem value={`item-${index}`}>
+              <div className="group flex items-center justify-around hover:bg-workspace-gray ">
+                <div className="flex items-center ">
+                  <AccordionTrigger className="text-slate-500 flex gap-3   hover:no-underline">
+                    <IoIosArrowForward size={15} className="text-slate-500  " />
+                    <LuFolder size={15} className="text-slate-400 " />
+                   <p className="text-slate-300 "> {folder.folderName}</p>
+                  </AccordionTrigger>
+                </div>
 
+                <MdDeleteOutline
+                  onClick={() => handlemoveToTrash(folder.folderId)}
+                  className=" text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+                <EditFolder folderId={folder.folderId} />
+                <PlusIcon
+                  onClick={(event) => addBoards(folder.folderId, event)}
+                  className="text-slate-400"
+                  size={15}
+                />
+              </div>
+              <AccordionContent className="text-right">
+                <ListOfBoard
+                  folderId={folder.folderId}
+                  workspaceId={folder.workspaceId}
+                  foldername={folder.folderName}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ))}
     </>
   );
 }

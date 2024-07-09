@@ -22,13 +22,17 @@ const config = {
         "custom-gray": "rgb(101, 111, 125)",
         'workspace-gray': 'rgb(31 31 31)',
         'custom-blue': '#0A0118',
-        'custom-zinc':'#121212',
+        'custom-zinc':'hsl(230 9% 16%)',
+        'chat':'hsl(210 10% 8%)',
+        // "bg-task":'rgb(31 31 31)',
+        // 'bg-backgroundblack':'rgb(255 255 255 / 20%)',
         navbar: '#38383b',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        bgCard:'#131314',
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -63,6 +67,7 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

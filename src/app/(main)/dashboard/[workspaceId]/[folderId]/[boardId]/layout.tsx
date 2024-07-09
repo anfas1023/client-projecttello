@@ -1,6 +1,6 @@
 "use client"
 import WorkspcaeSidebar from '@/components/Workspace-sedebar/Workspace-sidebar';
-import React from 'react';
+import React,{useState} from 'react';
 import { useParams } from 'next/navigation';
 
 type Props = {
@@ -15,12 +15,13 @@ type Params={
 
 const BoardLayout = ({ workspaceId, children }: Props) => {
   const params :Params=useParams()
-    console.log("params",params);
+  // const [showAlert, setShowAlert] = useState(true);
+    // console.log("params",params);
   return (
     <>
         {/* Uncomment and pass workspaceId as a prop */}
 {/* <div className='flex w-[100%]'> */}
-<WorkspcaeSidebar workspaceId={params.workspaceId} />
+{/* <WorkspcaeSidebar workspaceId={params.workspaceId} /> */}
 
 {children}
 

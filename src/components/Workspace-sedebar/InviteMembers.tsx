@@ -1,17 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { IoSearchOutline } from "react-icons/io5";
 import axios from 'axios';
+
 import {
   Dialog,
   DialogContent,
@@ -30,6 +22,7 @@ const InviteMembers = ({ workspaceId }: Props) => {
   const [query, setSearchQuery] = useState<string>();
   const [searchValue, setSearchValue] = useState<string[]>([]);
   const [email, setEmail] = useState<string[]>([]);
+  const [loading,setloading]=useState<boolean>(false)
 
   const handleInviteMembers = async () => {
     // console.log("email set", email);
@@ -38,6 +31,7 @@ const InviteMembers = ({ workspaceId }: Props) => {
       emails: email,
       workspaceId: workspaceId
     };
+    setloading(true)
 
     try {
       const response = await axios.post(`http://localhost:5000/workspace/addMemberToWorkspace`, data, {
@@ -48,9 +42,11 @@ const InviteMembers = ({ workspaceId }: Props) => {
         toast.success("Members added successfully", {
           position: "top-left",
         });
+        setloading(false)
       }
     } catch (error) {
       console.log("error", error);
+      setloading(false)
     }
   };
 
@@ -77,6 +73,34 @@ const InviteMembers = ({ workspaceId }: Props) => {
     setEmail([...email, nemail]);
   };
 
+  const handleSendVerificationLink=async(email:string)=>{
+    console.log("email",email);
+    setloading(true)
+    try{
+const response=await axios.get(`http://localhost:5000/workspace/sendInvitationLink?email=${email}&workspaceId=${workspaceId}`,{
+  withCredentials:true
+});
+
+if(response){
+  setloading(false)
+
+  toast.success(response.data.success,{position:"top-left"})
+}
+    }catch(error){
+    setloading(false);
+    console.log(error);
+    
+      if (axios.isAxiosError(error) && error.response?.status === 409) {
+        toast.error("User already invited to this workspace.", { position: "top-left" });
+    }else if(axios.isAxiosError(error) && error.response?.status === 401){
+      toast.error("token expired logout", { position: "top-left" });
+    }
+     else {
+        toast.error("An error occurred while sending the verification link.", { position: "top-left" });
+    }
+    }
+  }
+
   return (
     <>
      <Dialog>
@@ -85,39 +109,27 @@ const InviteMembers = ({ workspaceId }: Props) => {
             <AiOutlineUsergroupAdd className="text-white" size={30} />
           </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white p-4 rounded-lg shadow-lg">
+      <DialogContent className="sm:max-w-[425px] bg-chat p-4 rounded-lg shadow-lg">
         <DialogHeader>
-          <DialogTitle>Search Members To Add To Workspace</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+          <DialogTitle className='text-center text-white mb-2'>Enter an email send Verification </DialogTitle>
+          <DialogDescription className='text-center text-white'>
+            Enter a email click on button to send inviation link 
           </DialogDescription>
         </DialogHeader>
-        <div className='flex'>
+        <div className='flex w-full'>
             <input
               type="email"
-              className="border p-2 rounded"
-              placeholder="Search by email"
+              className="border w-full  text-left px-6 py-2 rounded"
+              placeholder="Enter A email..."
               value={query}
               onChange={handleSearchChange}
             />
-            <button onClick={handleClick} className="ml-2">
-              <IoSearchOutline size={20} />
-            </button>
           </div>
-          <div className='flex flex-col mt-4'>
-            {searchValue.map((email: string, index) => (
-              <div key={index} className="flex items-center mb-2">
-                <input
-                  type="checkbox"
-                  onChange={(event) => handleAssign(email, event)}
-                />
-                <p className="ml-2 text-black">{email}</p>
-              </div>
-            ))}
-            <button onClick={handleInviteMembers} className="mt-4 bg-blue-500 text-white p-2 rounded">
-              Add
+
+          <button onClick={()=>handleSendVerificationLink(query as string)} className="mt-4 bg-blue-500 text-white p-2 rounded">
+             {loading?"Loading..." : "Send Verification Link"}
             </button>
-          </div>
+ 
 
         <DialogFooter>
           {/* <Button type="submit">Save changes</Button>  */}

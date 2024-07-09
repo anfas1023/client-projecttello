@@ -49,6 +49,7 @@ export function EditFolder({folderId}:Props) {
           folderId: response.data._id,
           folderName: response.data.folderName,
           workspaceId: response.data.workspaceId,
+          trash:response.data.trash
         });
         // console.log("folderToUpdate",folderToUpdate);  
 
@@ -62,12 +63,20 @@ export function EditFolder({folderId}:Props) {
     
 
       } catch (error) {
-        console.error(error);
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 401) {
+            toast.error("token expired logout", { position: "top-left" });
+          } else {
+            toast.error("Error", { position: "top-left" });
+          }
+        } else {
+          toast.error("An unexpected error occured", { position: "top-left" });
+        }
       }
     };
     
 
-    console.log("folder",folders); 
+    // console.log("folder",folders); 
     
 
     

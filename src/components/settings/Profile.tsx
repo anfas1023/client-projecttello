@@ -13,17 +13,20 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { MdOutlineSettings } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 import image from "../../../public/images/depositphotos_53989081-stock-photo-black-texture.jpg";
 import { useEdgeStore } from "../../lib/edgestore";
 import axios from "axios";
 import useBearerStore from "@/store";
 import axiosInstance from '../../lib/axios'
+import { Router } from "lucide-react";
 
 function Profile() {
   const [file, setFile] = React.useState<File>();
   const { edgestore } = useEdgeStore();
   const [imagePreview, setImagePreview] = useState("");
+  const router=useRouter();
   const fileRef = useRef<HTMLInputElement | null>(null);
   //   zustand hooks
   const setImageUrl = useBearerStore((state) => state.setImageUrl);
@@ -89,12 +92,27 @@ function Profile() {
     }
   };
 
+
+  const handleLogout=async()=>{
+    localStorage.clear();
+
+    const response=await axios.get('http://localhost:5000/logout',{
+      withCredentials:true
+    });
+
+    if(response.status===200){
+      router.replace('/');
+    }
+
+   
+  }
+
   return (
     <Sheet>
       <SheetTrigger asChild>
         <MdOutlineSettings className="text-2xl text-slate-500 group-hover:text-slate-500" />
       </SheetTrigger>
-      <SheetContent className="">
+      <SheetContent className="bg-white">
         <SheetHeader>
           <SheetTitle className="text-center">Edit Profile</SheetTitle>
           <SheetDescription className="text-gray-700 text-center font-medium text-xl">
@@ -154,7 +172,7 @@ function Profile() {
                   );
 
 
-                  console.log("resdddcjd",response.data.profilePhoto);
+                  console.log("resdddcjd",response.data);
 
                   localStorage.setItem("imageUrl", response.data.profilePhoto);
 
@@ -187,7 +205,9 @@ function Profile() {
             <Button type="submit" onClick={handleSubmit}>
               Save changes
             </Button>
-     
+            <Button onClick={handleLogout} type="submit" >
+              Logout
+            </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>

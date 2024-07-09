@@ -29,6 +29,8 @@ import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { Badge } from "@/components/ui/badge";
 import TaskDetails from "./TaskDetails";
 import axios from "axios";
+import { EditTask } from "./EditTask";
+import { DeleteTask } from "./DeleteTask";
 
 interface AssigneeProfile {
   email: string;
@@ -40,7 +42,15 @@ interface TaskAssigneeDetails {
   assigneProfiles: AssigneeProfile[];
 }
 
-const TableView = () => {
+const TableView = ({
+  workspaceId,
+  folderId,
+  boardId,
+}: {
+  workspaceId: string;
+  folderId: string;
+  boardId: string;
+}) => {
   const ViewTask = useSetTask((state) => state.Viewtask);
   const [arrow, setArrow] = useState(false);
   const [progressarrow, setProgressArrow] = useState(false);
@@ -153,6 +163,13 @@ const TableView = () => {
                           <p>Assigne</p>
                         </div>
                       </TableHead>
+
+                      <TableHead className="text-right text-white">
+                        <div className="flex item-center justify-center gap-2">
+                          <AiOutlineUsergroupAdd />
+                          <p>Action</p>
+                        </div>
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -162,8 +179,8 @@ const TableView = () => {
                           <TableCell className="font-medium text-white">
                             <div className="flex gap-3">
                               {/* <HiOutlineClipboardDocumentList size={40} />  */}
-                              <TaskDetails task={task} />
-                            </div>
+                              <TaskDetails  task={task} workspaceId={workspaceId} folderId={folderId} boardId={boardId} />
+                            </div>  
                           </TableCell>
                           <TableCell className="text-white flex item-center justify-center">
                             <div className="bg-blue-500 rounded-lg w-20">
@@ -185,9 +202,27 @@ const TableView = () => {
                           <TableCell className="text-center text-white">
                             <div className="flex flex-col">
                               {task.assignee.map((assignee, index) => (
-                                <div key={index}>{assignee}</div>
+                                <div key={index}>{assignee.userName}</div>
                               ))}
                             </div>
+                          </TableCell>
+
+                          <TableCell className="text-center text-white">
+                            <TableHead className="text-right text-white">
+                              <div className="flex gap-2">
+                                {/* <button className="border py-3 bg-neutral-800 rounded-lg">Edit</button>
+                          <button className="border py-3 bg-neutral-800 rounded-lg">Del</button> */}
+                                <EditTask
+                                  task={task}
+                                  workspaceId={workspaceId}
+                                  folderId={folderId}
+                                  boardId={boardId}
+                                />
+                                <DeleteTask taskId={task._id} workspaceId={workspaceId}
+                                  folderId={folderId}
+                                  boardId={boardId} />
+                              </div>
+                            </TableHead>
                           </TableCell>
                         </TableRow>
                       )
@@ -256,6 +291,13 @@ const TableView = () => {
                           <p>Assigne</p>
                         </div>
                       </TableHead>
+
+                      <TableHead className="text-right text-white">
+                        <div className="flex item-center justify-center gap-2">
+                          <AiOutlineUsergroupAdd />
+                          <p>Action</p>
+                        </div>
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -264,7 +306,8 @@ const TableView = () => {
                     ).map((task) => (
                       <TableRow>
                         <TableCell className="font-medium text-white">
-                          <TaskDetails task={task} />
+                        <TaskDetails task={task} workspaceId={workspaceId} folderId={folderId} boardId={boardId} />
+
                           {/* {task.taskName}  */}
                         </TableCell>
                         <TableCell className="text-white text-center flex item-center justify-center">
@@ -287,8 +330,25 @@ const TableView = () => {
                         <TableCell className="text-center text-white">
                           <div className="flex flex-col">
                             {task.assignee.map((assignee, index) => (
-                              <div key={index}>{assignee}</div>
+                              <div key={index}>{assignee.userName}</div>
                             ))}
+                          </div>
+                        </TableCell>
+
+                        <TableCell className="text-center text-white">
+                          <div className="flex gap-2">
+                            {/* <button className="border py-3 bg-neutral-800 rounded-lg">Edit</button>
+                          <button className="border py-3 bg-neutral-800 rounded-lg">Del</button> */}
+                            <EditTask
+                              task={task}
+                              workspaceId={workspaceId}
+                              folderId={folderId}
+                              boardId={boardId}
+                            />
+
+<DeleteTask taskId={task._id} workspaceId={workspaceId}
+                                  folderId={folderId}
+                                  boardId={boardId} />
                           </div>
                         </TableCell>
                       </TableRow>
@@ -357,6 +417,12 @@ const TableView = () => {
                           <p>Assigne</p>
                         </div>
                       </TableHead>
+
+                      <TableHead className="text-right text-white">
+                        <div className="flex item-center justify-center gap-2">
+                          action
+                        </div>
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -364,7 +430,8 @@ const TableView = () => {
                       (task) => (
                         <TableRow>
                           <TableCell className="font-medium text-white">
-                            <TaskDetails task={task} />
+                                                         <TaskDetails task={task} workspaceId={workspaceId} folderId={folderId} boardId={boardId} />
+
                           </TableCell>
                           <TableCell className="text-white text-center flex justify-center">
                             <div className="bg-green-500 rounded-lg w-20">
@@ -384,10 +451,19 @@ const TableView = () => {
                             </div>
                           </TableCell>
                           <TableCell className="text-center text-white">
-                            <div className="flex flex-col">
-                              {task.assignee.map((assignee, index) => (
-                                <div key={index}>{assignee}</div>
-                              ))}
+                            <div className="flex gap-2">
+                              {/* <button className="border py-3 bg-neutral-800 rounded-lg">Edit</button>
+                          <button className="border py-3 bg-neutral-800 rounded-lg">Del</button> */}
+                              <EditTask
+                                task={task}
+                                workspaceId={workspaceId}
+                                folderId={folderId}
+                                boardId={boardId}
+                              />
+
+<DeleteTask taskId={task._id} workspaceId={workspaceId}
+                                  folderId={folderId}
+                                  boardId={boardId} />
                             </div>
                           </TableCell>
                         </TableRow>

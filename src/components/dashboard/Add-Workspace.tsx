@@ -40,11 +40,15 @@ const AddWorkspace = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const userId = localStorage.getItem("userId");
+    const email=localStorage.getItem("email");
+    const username=localStorage.getItem("username");
     const data = {
       workspacename: workspace.workspacename,
       description: workspace.description,
       userId: userId,
-      workspaceOwner:userId
+      workspaceOwner:userId,
+      email,
+      username
     };
 
     console.log("data", workspace);
@@ -74,7 +78,10 @@ const AddWorkspace = () => {
           workspacename: response.data.workspacename,
           userId: response.data.userId,
           description: response.data.description,
-          workspaceId:response.data._id
+          workspaceId:response.data._id,
+          inviteMembers:[],
+          workpspaceOwner:response.data.workspaceOwner
+
         });
         setDialogOpen(false);
         router.push("/dashboard");
@@ -92,7 +99,7 @@ const AddWorkspace = () => {
           <DialogTrigger asChild>
           {/* <FiPlus className="text-2xl text-white group-hover:text-white " /> */}
             <Button
-              className="text-white border-0 p-5 bg-zinc-900"
+              className="text-white border-0 p-5 bg-blue-500"
               variant="outline"
               onClick={()=>setDialogOpen(!dialogOpen)}
             >
@@ -103,9 +110,9 @@ const AddWorkspace = () => {
 
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
+              <DialogTitle>Add Workpsace</DialogTitle>
               <DialogDescription>
-                Make changes to your profile here. Click save when you're done.
+                Create a Workspace click on the add button
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">

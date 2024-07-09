@@ -1,14 +1,15 @@
 "use client";
 import { WorkspaceStore, useBoardStore, useFolderStore } from "@/store";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 // import { Folder } from "@/store";
-
+import { toast } from "sonner";
 type Folder = {
   _id: string;
   folderName: string;
   workspaceId: string;
+  trash: boolean;
 };
 
 type Board = {
@@ -20,15 +21,19 @@ type Board = {
 
 const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
   // const Workspace = WorkspaceStore((state) => state.workspaces);
+
   const addFolders = useFolderStore((state) => state.addFolder);
   const addBoard = useBoardStore((state) => state.addBoard);
-  const board=useBoardStore((state)=>state.board)
+  const board = useBoardStore((state) => state.board);
   const params = useParams();
   useEffect(() => {
     async function fetchAllFolders() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/folders/getAllFolders/${params.workspaceId}`
+          `http://localhost:5000/folders/getAllFolders/${params.workspaceId}`,
+          {
+            withCredentials: true,
+          }
         );
         if (response) {
           // console.log("response", response.data);
@@ -37,11 +42,21 @@ const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
               workspaceId: folder.workspaceId,
               folderName: folder.folderName,
               folderId: folder._id,
+              trash: folder.trash,
             });
           });
         }
       } catch (error) {
-        console.log("error", error);
+        // console.log("error", error);
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 401) {
+            toast.error("token expired logout", { position: "top-left" });
+          } else {
+            toast.error("Error", { position: "top-left" });
+          }
+        } else {
+          toast.error("An unexpected error occured", { position: "top-left" });
+        }
       }
     }
 
@@ -52,15 +67,17 @@ const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
 
   // console.log("folder", folder);
   // console.log("childrens",childrens);
-  
+
   // console.log("board",board);
-  
 
   useEffect(() => {
     async function fetchBoards() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/board/getAllBoards`
+          `http://localhost:5000/board/getAllBoards`,
+          {
+            withCredentials: true,
+          }
         );
 
         if (response) {
@@ -71,14 +88,21 @@ const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
               boardName: board.boardName,
               folderId: board.folderId,
               workspaceId: board.workspaceId,
-              id:board._id,
-              togglVisibilit:false
+              id: board._id,
+              togglVisibilit: false,
             });
           });
         }
       } catch (error) {
-        console.log(error);
-        
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 401) {
+            toast.error("token expired logout", { position: "top-left" });
+          } else {
+            toast.error("Error", { position: "top-left" });
+          }
+        } else {
+          toast.error("An unexpected error occured", { position: "top-left" });
+        }
       }
     }
 
