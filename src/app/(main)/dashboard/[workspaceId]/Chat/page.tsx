@@ -70,7 +70,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
     const fetchConversation = async () => {
       const userId = localStorage.getItem("userId");
       const response = await axios.get(
-        `http://localhost:5000/chat/conversation/${userId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/conversation/${userId}`
       );
       if (response) {
         console.log("resData :>>", response.data);
@@ -133,7 +133,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
     const senderId = localStorage.getItem("userId");
     const reciverId = receiver;
     const response = await axios.get(
-      `http://localhost:5000/chat/message/${conversationId}/${senderId}/${reciverId}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/message/${conversationId}/${senderId}/${reciverId}`
     );
 
     if (response) {
@@ -187,7 +187,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
     // console.log("messages?.conversationId",messages?.conversationId);
 
     const response = await axios.post(
-      `http://localhost:5000/chat/saveMessage`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/saveMessage`,
       data,
       {
         withCredentials: true,
@@ -204,24 +204,8 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
         }));
       }
 
-      // setMessages((prev: any) => {
-      //   // Check if prev.message._id does not exist
-      //   console.log("on checking");
+  
 
-      //   if (!prev.message._id) {
-      //     // Return a new object that includes all properties of prev plus the new conversationId and keeps the existing messages array intact
-      //     return {
-      //       ...prev,
-      //       conversationId: response.data.conversationId,
-      //       message: [...prev.message], // Correctly spreading the message array
-      //     };
-      //   } else {
-      //     // If prev.message._id exists, simply return the previous state (unchanged)
-      //     return prev;
-      //   }
-      // });
-
-      // setSendMessage("")
     }
   };
 
@@ -229,7 +213,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
     console.log("query", query);
 
     const response = await axios.get(
-      `http://localhost:5000/chat/searchUsers/${query}/${params.workspaceId}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/searchUsers/${query}/${params.workspaceId}`
     );
 
     if (response) {

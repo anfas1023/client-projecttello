@@ -24,7 +24,7 @@ export function AddDescription({ taskDescription, taskId }: { taskDescription: s
       console.log(data);
 
       const response = await axios.post(
-        `http://localhost:5000/task/addDescription/${taskId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/task/addDescription/${taskId}`,
         data,
         {
           withCredentials: true,

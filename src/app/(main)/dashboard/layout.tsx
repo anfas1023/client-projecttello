@@ -98,7 +98,7 @@ export default function RootLayout({
         setLoading(true);
         console.log("here1");
         const response = await axios.get(
-          `http://localhost:5000/workspace/getAllWorkspace/`,{
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/getAllWorkspace/`,{
             withCredentials:true
           }
         );
@@ -139,7 +139,7 @@ export default function RootLayout({
         console.log("here1");
         
         const response = await axios.get(
-          `http://localhost:5000/workspace/getAllWorkspaceByInvitedMembers/`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/getAllWorkspaceByInvitedMembers/`,
           {
             withCredentials:true
           }

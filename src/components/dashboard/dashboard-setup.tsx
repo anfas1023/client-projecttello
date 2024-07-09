@@ -59,8 +59,8 @@ const DashboardSetUp = ({ onUpdate }: Props) => {
     console.log(data);
 
     try {
-      const response = await axiosInstance.post(
-        `/workspace/createWorkspace`,
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/createWorkspace`,
         data,
         {withCredentials:true}
       );

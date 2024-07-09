@@ -138,7 +138,7 @@ if(!e.target.value.trim()){
       
 
       const response = await axios.post(
-        `http://localhost:5000/task/createTask`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/task/createTask`,
         data,
         {
           withCredentials: true,

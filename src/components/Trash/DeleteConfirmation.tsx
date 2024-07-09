@@ -24,7 +24,7 @@ import {toast} from 'sonner'
         // console.log(`Deleting folder with ID: ${folderId}`);
     
     try {
-      const response=await axios.delete(`http://localhost:5000/folders/deleteFromTrash/${folderId}`,{
+      const response=await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/folders/deleteFromTrash/${folderId}`,{
         withCredentials:true
       });
     

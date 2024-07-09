@@ -43,7 +43,7 @@ export default function Folders({ workspaceId }: { workspaceId: string }) {
         workspaceId: workspaceId,
       };
       const response = await axios.post(
-        `http://localhost:5000/board/createBoard`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/board/createBoard`,
         data,
         {
           withCredentials: true,
@@ -81,7 +81,7 @@ export default function Folders({ workspaceId }: { workspaceId: string }) {
   const handlemoveToTrash = async (folderId: string) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/folders/moveToTrash/${folderId}`,{},
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/folders/moveToTrash/${folderId}`,{},
         {
           withCredentials: true,
         }

@@ -57,12 +57,11 @@ export default function Login() {
 
     // console.log(email, password);
     try {
-      const response = await axiosInstance.post(`/login`, data, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, data, {
         withCredentials: true,
       });
       if (response) {
-        // console.log("response",response.data);
-        // localStorage.setItem('userId',)
+   
         setLoading(false)
         toast.success("Login Completed", {
           position: "top-left",

@@ -98,7 +98,7 @@ const updateTask=useSetTask((state)=>state.updateTask)
     folderId: folderId,
    }
 try {
-  const response=await axios.put(`http://localhost:5000/task/editTask`,data,{
+  const response=await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/task/editTask`,data,{
     withCredentials:true
   })
 

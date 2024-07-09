@@ -50,7 +50,7 @@ const TaskDetails = ({
       // }
       try {
         const response = await axios.get(
-          `http://localhost:5000/task/getTask/${params.workspaceId}/${params.folderId}/${params.boardId}/${email}/${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/task/getTask/${params.workspaceId}/${params.folderId}/${params.boardId}/${email}/${userId}`,
           {
             withCredentials: true,
           }

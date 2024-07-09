@@ -18,7 +18,7 @@ import { toast } from "sonner";
     const removeTask= useSetTask((state)=>state.removeTask)
    const  handleDelete=async()=>{
     try {
-      const response=await axios.delete(`http://localhost:5000/task/deleteTask/${taskId}`,{
+      const response=await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/task/deleteTask/${taskId}`,{
         withCredentials:true
       })
       if(response){

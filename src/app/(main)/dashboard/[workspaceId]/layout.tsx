@@ -30,7 +30,7 @@ const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
     async function fetchAllFolders() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/folders/getAllFolders/${params.workspaceId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/folders/getAllFolders/${params.workspaceId}`,
           {
             withCredentials: true,
           }
@@ -74,7 +74,7 @@ const WorkspaceLayout = ({ children }: { children: React.ReactNode }) => {
     async function fetchBoards() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/board/getAllBoards`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/board/getAllBoards`,
           {
             withCredentials: true,
           }

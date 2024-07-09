@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -28,22 +28,13 @@ export function EditFolder({folderId}:Props) {
       }
 
       try {
-        const response = await axios.put(`http://localhost:5000/folders/editFolder`, data, {
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/folders/editFolder`, data, {
           withCredentials: true,
         });
-    
-        // if (!response ||!response.data) {
-        //   throw new Error('No response or invalid response data');
-        // }
-
         console.log("response",response.data._id);  
         
     
-        // const folderToUpdate = folders.find(folder => folder.folderId === response.data._id ? updateFolder({
-        //   folderId: response.data._id,
-        //   folderName: response.data.folderName,
-        //   workspaceId: response.data.workspaceId,
-        // }) : folder);
+
 
         updateFolder({
           folderId: response.data._id,
@@ -51,15 +42,13 @@ export function EditFolder({folderId}:Props) {
           workspaceId: response.data.workspaceId,
           trash:response.data.trash
         });
-        // console.log("folderToUpdate",folderToUpdate);  
+       
 
         toast.success("Folder Name Updated", {
           position: "top-left",
         });
         
-        // if (!folderToUpdate) {
-        //   throw new Error('Folder not found in state');
-        // }
+
     
 
       } catch (error) {
@@ -76,7 +65,7 @@ export function EditFolder({folderId}:Props) {
     };
     
 
-    // console.log("folder",folders); 
+
     
 
     

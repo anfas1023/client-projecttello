@@ -92,7 +92,7 @@ const CardPage = ({ workspaceId, boardId, folderId }: Props) => {
       // }
       try {
         const response = await axios.get(
-          `http://localhost:5000/task/getTask/${workspaceId}/${folderId}/${boardId}/${email}/${userId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/task/getTask/${workspaceId}/${folderId}/${boardId}/${email}/${userId}`,
           {
             withCredentials: true,
           }

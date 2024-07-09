@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FiPlus } from "react-icons/fi";
+
 import { Folder, WorkspaceStore, useFolderStore } from "@/store";
 import axios from "axios";
 import { toast } from "sonner";
@@ -23,11 +23,9 @@ export default function AddFolders({ workspaceId }: { workspaceId: string }) {
   const [folderName, setFolderName] = useState("");
   const workspaces = WorkspaceStore((state) => state.workspaces);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const addFolder=useFolderStore((state)=>state.addFolder)
+  const addFolder = useFolderStore((state) => state.addFolder);
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // console.log("Submitted folder name:", folderName);
-
     const data = {
       folderName: folderName,
       workspaceId: workspaceId,
@@ -35,7 +33,7 @@ export default function AddFolders({ workspaceId }: { workspaceId: string }) {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/folders/createfolder`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/folders/createfolder`,
         data,
         {
           withCredentials: true,
@@ -48,39 +46,37 @@ export default function AddFolders({ workspaceId }: { workspaceId: string }) {
 
         // console.log(response.data);
 
-addFolder({
-  folderId:response.data._id,
-  workspaceId:response.data.workspaceId,
-  folderName:response.data.folderName,
-  trash:response.data.trash
-})
-        
+        addFolder({
+          folderId: response.data._id,
+          workspaceId: response.data.workspaceId,
+          folderName: response.data.folderName,
+          trash: response.data.trash,
+        });
 
         toast.success("Folder Created Sucessfull", {
           position: "top-left",
         });
-        setDialogOpen(!dialogOpen)
+        setDialogOpen(!dialogOpen);
         // router.push(`/dashboard/${workspaceId}`)
       }
     } catch (error) {
-      setDialogOpen(!dialogOpen)
-      // console.log(error); 
-      if(axios.isAxiosError(error) && error.response){
+      setDialogOpen(!dialogOpen);
+      // console.log(error);
+      if (axios.isAxiosError(error) && error.response) {
         if (error.response.data === "Folder Exist") {
           toast.error("Folder already exists", {
             position: "top-left",
           });
-        } else if(error.response.status===401){
+        } else if (error.response.status === 401) {
           toast.error("token expired logout", {
             position: "top-left",
           });
-        } 
-         else {
+        } else {
           toast.error("Folder already exists", {
             position: "top-left",
           });
         }
-      }else{
+      } else {
         toast.error("An unexpected error occurred", {
           position: "top-left",
         });
@@ -91,7 +87,10 @@ addFolder({
   return (
     <Dialog open={dialogOpen}>
       <DialogTrigger asChild>
-        <button onClick={()=>setDialogOpen(!dialogOpen)} className=" flex justify-between bg-neutral-800 text-white font-normal text-l  rounded-lg hover:bg-workspace-gray">
+        <button
+          onClick={() => setDialogOpen(!dialogOpen)}
+          className=" flex justify-between bg-neutral-800 text-white font-normal text-l  rounded-lg hover:bg-workspace-gray"
+        >
           Folders
           {/* <FiPlus className="text-2xl pl-6 text-white" /> */}
         </button>

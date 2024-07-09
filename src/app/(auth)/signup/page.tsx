@@ -100,7 +100,7 @@ try {
     phonenumber,
   };
   setLoading(true)
-  const response = await axios.post("http://localhost:5000/signup", data);
+  const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signup`, data);
 
   console.log(response.data);
   // localStorage.setItem("email", email as string);

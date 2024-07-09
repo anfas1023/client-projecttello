@@ -15,13 +15,10 @@ type Params={
 
 const BoardLayout = ({ workspaceId, children }: Props) => {
   const params :Params=useParams()
-  // const [showAlert, setShowAlert] = useState(true);
-    // console.log("params",params);
+
   return (
     <>
-        {/* Uncomment and pass workspaceId as a prop */}
-{/* <div className='flex w-[100%]'> */}
-{/* <WorkspcaeSidebar workspaceId={params.workspaceId} /> */}
+
 
 {children}
 

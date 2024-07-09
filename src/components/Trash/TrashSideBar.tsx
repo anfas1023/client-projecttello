@@ -28,11 +28,10 @@ export function TrashBar({ workspaceId }: { workspaceId: string }) {
   const setDelete=useFolderStore((state)=>state.deleteFolder)
 
  async function handleDelete(folderId: string) {
-    // Implement deletion logic here
-    // console.log(`Deleting folder with ID: ${folderId}`);
+ 
 
 try {
-  const response=await axios.delete(`http://localhost:5000/folders/deleteFromTrash/${folderId}`,{
+  const response=await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/folders/deleteFromTrash/${folderId}`,{
     withCredentials: true,
   });   
 
@@ -64,7 +63,7 @@ try {
     // console.log(`Restoring folder with ID: ${folderId}`);
 
     try {
-      const response=await axios.put(`http://localhost:5000/folders/restoreTrash/${folderId}`,{},{
+      const response=await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/folders/restoreTrash/${folderId}`,{},{
         withCredentials: true,
       });
 
@@ -125,12 +124,7 @@ try {
                 <span className="pt-1">
                   <MdDelete className="text-red-500 text-lg" />
                 </span>
-                {/* <p
-                  className="text-red-500 text-lg cursor-pointer"
-                  onClick={() => handleDelete(folder.folderId)}
-                >
-                  Delete
-                </p> */}
+
                 <DeleteConfirmation folderId={folder.folderId} />
               </div>
               <div className="flex cursor-pointer">

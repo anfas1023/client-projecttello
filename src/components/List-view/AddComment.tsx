@@ -26,7 +26,7 @@ const viewTask=useSetTask((state)=>state.Viewtask)
       taskId,
     }
     try {
-      const response=await axios.post(`http://localhost:5000/task/addComment`,data,{
+      const response=await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/task/addComment`,data,{
         withCredentials:true
       })
 

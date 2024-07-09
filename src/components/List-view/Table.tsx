@@ -79,30 +79,6 @@ const TableView = ({
     (task) => task.status === "completed"
   ).length;
 
-  // useEffect(()=>{
-
-  // async function fetchAssigneDetails(assigne:{ assigne: string[]; taskId: string; }[]){
-  //   //  console.log("assigne",assigne);
-
-  //    const response=await axios.post(`http://localhost:5000/task/getAssignedMembers`,assigne)
-
-  //    if(response){
-  //     console.log("response",response.data);
-
-  //    }
-
-  //  }
-
-  //  const assigne=ViewTask.map((task)=>{
-  //   return {
-  //     assigne:task.assignee,
-  //     taskId:task._id
-  //   }
-  //  })
-
-  //   fetchAssigneDetails(assigne)
-
-  // },[])
 
   return (
     <>

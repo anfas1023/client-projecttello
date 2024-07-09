@@ -11,31 +11,6 @@ import {
 
 const Workspacedropdown = () => {
   const [workspaces, setWorkspaces] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchWorkspaces = async (userId: string | null) => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:5000/workspace/getAllWorkspace/${userId}`
-  //       );
-
-  //       if (response.data) {
-  //         setWorkspaces(response.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching workspaces:", error);
-  //     }
-  //   };
-
-  //   const userId = localStorage.getItem("userId");
-  //   if (userId) {
-  //     fetchWorkspaces(userId);
-  //   } else {
-  //     console.error("User ID not found in localStorage");
-  //   }
-  // }, []);
-
-  // Fetching workspaces from the Recoil state
   const workspacesFromStore = WorkspaceStore((state) => state.workspaces);
 
   return (

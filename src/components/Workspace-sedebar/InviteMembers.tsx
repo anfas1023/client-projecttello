@@ -25,7 +25,7 @@ const InviteMembers = ({ workspaceId }: Props) => {
   const [loading,setloading]=useState<boolean>(false)
 
   const handleInviteMembers = async () => {
-    // console.log("email set", email);
+   
 
     const data = {
       emails: email,
@@ -34,7 +34,7 @@ const InviteMembers = ({ workspaceId }: Props) => {
     setloading(true)
 
     try {
-      const response = await axios.post(`http://localhost:5000/workspace/addMemberToWorkspace`, data, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/addMemberToWorkspace`, data, {
         withCredentials: true
       });
 
@@ -58,7 +58,7 @@ const InviteMembers = ({ workspaceId }: Props) => {
     console.log("searchQuery", query);
 
     try {
-      const response = await axios.get(`http://localhost:5000/workspace/inviteToWorkspace/${query}`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/inviteToWorkspace/${query}`);
       console.log(response.data);
       
       const emailArray = response.data.map((user: any) => user.email);
@@ -77,7 +77,7 @@ const InviteMembers = ({ workspaceId }: Props) => {
     console.log("email",email);
     setloading(true)
     try{
-const response=await axios.get(`http://localhost:5000/workspace/sendInvitationLink?email=${email}&workspaceId=${workspaceId}`,{
+const response=await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/sendInvitationLink?email=${email}&workspaceId=${workspaceId}`,{
   withCredentials:true
 });
 

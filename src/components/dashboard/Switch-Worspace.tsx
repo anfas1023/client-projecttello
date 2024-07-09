@@ -35,8 +35,8 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
   const [inputOpen, setInputOpen] = useState(false);
   const [handleValue, setHandleValue] = useState("");
   const [WorkspaceId, setWorspaceId] = useState("");
-  const updateWorkspace=WorkspaceStore((state)=>state.updateWorkspace)
-  const deleteWorkspace=WorkspaceStore((state)=>state.deleteWorkspace)
+  const updateWorkspace = WorkspaceStore((state) => state.updateWorkspace);
+  const deleteWorkspace = WorkspaceStore((state) => state.deleteWorkspace);
   const handleClick = (workspaceId: string) => {
     // e.preventDefault();
     console.log(workspaceId);
@@ -48,74 +48,88 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
     console.log("workspaceId", workspaceId);
 
     try {
-      const response = await axiosInstance.delete(
-        `/workspace/deleteWorkspace/${workspaceId}`,
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/deleteWorkspace/${workspaceId}`,
         {
-          withCredentials:true
-        },
-      );
-      if(response){
-        deleteWorkspace(response.data._id)   
-
-        toast.success("Workspace deleted",{
-          position:"top-left"
-        })
-      }
-    } catch (error) {
-      console.log(error); 
-    }
-  };
-
-  const handleEdit = async  () => {
-    // console.log("workspaceId", workspaceId); 
-    try {
-
-      const data={
-        WorkspaceId:WorkspaceId,
-        workspacename:handleValue
-      }
-      // console.log("data",data); 
-      
-      const response=await axiosInstance.put(`/workspace/editWorkpsace`,data,{
-        withCredentials:true
-      })   
-      
-      if(response) {
-        setInputOpen(!inputOpen)
-        // console.log("response",response.data);   
-        let workspaceData;
-         workspaceData={
-          workspaceId:response.data._id,
-          workspacename:response.data.workspacename,
-          description:response.data.description,
-          userId:response.data.userId,
-          inviteMembers:response.data.inviteMembers,
-          workpspaceOwner:response.data.response.data
+          withCredentials: true,
         }
-        // console.log("workspaceData",workspaceData); 
+      );
+      if (response) {
+        deleteWorkspace(response.data._id);
 
-     
-            
-        
-        
-        updateWorkspace(workspaceData) 
-        
-        toast.success("Workspace name edited",{
-          position:"top-left"
-        })
- 
-        
+        toast.success("Workspace deleted", {
+          position: "top-left",
+        });
       }
     } catch (error) {
-      console.log(error);  
-      
+      if (axios.isAxiosError(error) && error.response) {
+        
+        if (error.response.status === 401) {
+          toast.error("token expired logout", { position: "top-left" });
+        } else {
+          toast.error("Error", { position: "top-left" });
+        }
+      } else {
+        toast.error("An unexpected error occured", { position: "top-left" });
+      }
     }
   };
+
+  const handleEdit = async () => {
+    // console.log("workspaceId", workspaceId);
+    try {
+      const data = {
+        WorkspaceId: WorkspaceId,
+        workspacename: handleValue,
+      };
+      // console.log("data",data);
+
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/editWorkpsace`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response) {
+        setInputOpen(!inputOpen);
+        console.log("response", response.data);
+
+        let workspaceData = {
+          workspaceId: response.data._id,
+          workspacename: response.data.workspacename,
+          description: response.data.description,
+          userId: response.data.userId,
+          inviteMembers: response.data.inviteMembers,
+          workpspaceOwner: response.data.workspaceOwner,
+        };
+
+        updateWorkspace(workspaceData);
+
+        toast.success("Workspace name edited", {
+          position: "top-left",
+        });
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 401) {
+          toast.error("token expired logout", { position: "top-left" });
+        } else {
+          toast.error("Error", { position: "top-left" });
+        }
+      } else {
+        console.log(error)
+        toast.error("An unexpected error occured", { position: "top-left" });
+      }
+    }
+  };
+  console.log("Workspace",Workspace);
+  
 
   const handleSetInputOpen = (workspaceId: string) => {
     setInputOpen(!inputOpen);
     setWorspaceId(workspaceId);
-    // console.log("WorkspaceId", WorkspaceId); 
   };
   return (
     <Dialog>
@@ -145,7 +159,10 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
               />
 
               <div className="flex gap-4">
-                <button onClick={handleEdit} className="bg-green-500 rounded-lg px-4 py-2">
+                <button
+                  onClick={handleEdit}
+                  className="bg-green-500 rounded-lg px-4 py-2"
+                >
                   Save
                 </button>
                 <button
@@ -167,9 +184,9 @@ const SwitchWorkspace = ({ workspacename }: Props) => {
                   {workspace.workspacename}
                 </h3>
                 <div className="flex ">
-                <p>
+                  <p>
                     {" "}
-<MemberDetails workspaceId={workspace.workspaceId} />
+                    <MemberDetails workspaceId={workspace.workspaceId} />
                   </p>
                   <p>
                     {" "}

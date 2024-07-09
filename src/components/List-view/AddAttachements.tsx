@@ -38,7 +38,7 @@ export function AddAttachements({taskId}:{taskId:string}) {
       setLoading(true)
       try {
         const response = await axios.post(
-          `http://localhost:5000/task/uploadAttachments/${taskId}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/task/uploadAttachments/${taskId}`,
           formData,
           {
             headers: {
@@ -55,7 +55,7 @@ export function AddAttachements({taskId}:{taskId:string}) {
           // console.log("response.data.attachments",response.data.attachments);
 
           addAttachements(taskId,response.data);
-      setLoading(false)
+          setLoading(false)
 
 
           //     // addTask(response.data)

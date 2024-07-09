@@ -96,7 +96,7 @@ function Profile() {
   const handleLogout=async()=>{
     localStorage.clear();
 
-    const response=await axios.get('http://localhost:5000/logout',{
+    const response=await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/logout`,{
       withCredentials:true
     });
 
@@ -164,7 +164,7 @@ function Profile() {
                   // console.log("data", data); 
 
                   const response = await axios.post(
-                    `http://localhost:5000/updateImage`,
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/updateImage`,
                     data,
                     {
                       withCredentials: true,
