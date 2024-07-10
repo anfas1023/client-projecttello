@@ -26,7 +26,6 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [ConfirmError, setConfirmError] = useState("");
   const [loading,setLoading] =useState(false)
-
   const validateEmail = (email: string) => {
     // Regular expression for validating email
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -54,7 +54,7 @@ export default function RootLayout({
   const showSidebar = pathname === "/dashboard";
   const [loading, setLoading] = useState<boolean>(true);
 
-  const userId=localStorage.getItem('userId');
+
 
 
 
@@ -90,10 +90,10 @@ export default function RootLayout({
       fetchUserData();
     }
    
-  },[])
+  },[router])
 
   useEffect(() => {
-    async function fetchWorkspace(userId: string | null) {
+    async function fetchWorkspace() {
       try {
         setLoading(true);
         console.log("here1");
@@ -121,14 +121,9 @@ export default function RootLayout({
         setLoading(false);
       }
     }
-
-    const userId = localStorage.getItem("userId");
-   
-
-      fetchWorkspace(userId);
+      fetchWorkspace();
   
-      // console.error("User ID not found in localStorage");
-      // router.push('/login')
+
   
   }, [addWorkspace]);
 
@@ -145,7 +140,7 @@ export default function RootLayout({
           }
         );
 
-        console.log("here11");
+      
 
 
         if (response) {
@@ -160,7 +155,7 @@ export default function RootLayout({
             });
           });
         }
-        console.log("response2",response.data)
+      
 
         setLoading(false);
       } catch (error) {
@@ -171,10 +166,7 @@ export default function RootLayout({
     }
 
     const email = localStorage.getItem("email");
- 
       fetchInvitedWorkspace();
-
-      // router.push('/login');
       console.error("Email not found in localStorage");
    
   }, [addWorkspace]);
@@ -184,27 +176,22 @@ export default function RootLayout({
   };
 
 
-  // console.log("Workspaces",Workspaces);
-
-
-  
-  // if(!userId){
-  //   console.log("working here");
-  //   return router.replace('/login');
-  // }
-
   const [isOpen, setIsOpen] = useState(true);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(()=>{
+    const userId=localStorage.getItem('userId');
+     if(!userId){
+      router.replace('/login')
+     }
+   
+  },[router])
+
   return (
     <>
       <Toaster />
-      {
-        !userId && router.replace('/login')
-      }
-
       {loading ? (
         <div className=" h-screen bg-workspace-gray flex justify-center items-center">
           {/* <p className="text-white">Loading.</p> */}

@@ -35,12 +35,15 @@ export default function Login() {
 
   const router = useRouter();
 
+ useEffect(()=>{
   const userId=localStorage.getItem("userId");
   if(userId){
     console.log("onLogin",userId); 
     
     return  router.push('/dashboard');  
   }
+ },[router])
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
@@ -54,8 +57,6 @@ export default function Login() {
     };
 
     setLoading(true)
-
-    // console.log(email, password);
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, data, {
         withCredentials: true,

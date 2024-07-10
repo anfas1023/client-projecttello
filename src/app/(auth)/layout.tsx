@@ -3,7 +3,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import useBearerStore from "@/store";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function AuthLayout({
   children,
@@ -11,23 +11,22 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  let setuserId = useBearerStore((state) => state.setuserId);
-  
+  const setuserId = useBearerStore((state) => state.setuserId);
+  const userIdRef = useRef<string | null>(null);
 
-
-  const userId = localStorage.getItem("email");
-    setuserId(userId as string);
   useEffect(() => {
+    const userId = localStorage.getItem("email");
+    userIdRef.current = userId;
     if (userId) {
-      console.log("onlayout",userId);   
-      
+      setuserId(userId);
+      console.log("onlayout", userId);
       router.push("/dashboard");
     }
-  }, [userId,router]); 
+  }, [setuserId, router]);
 
   return (
     <>
-      {!userId ? (
+      {!userIdRef.current ? (
         <>
           {children}
           <Toaster />

@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import React from 'react';
 import { useParams } from 'next/navigation';
 
@@ -8,16 +9,15 @@ type Props = {
 
 type Params = {
   workspaceId: string;
-  boardId: string;
+  folderId: string;  // Assuming you meant folderId here instead of boardId
 };
 
 const FolderLayout: React.FC<Props> = ({ children }) => {
   const params = useParams() as Params;
-  console.log("params", params);
+  console.log("params", params); // Uncomment for debugging
 
   return (
     <>
-   
       {children}
     </>
   );
