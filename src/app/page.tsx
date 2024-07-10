@@ -6,7 +6,7 @@ export default function Home() {
       <div className="bg-indigo-900 max-h-full flex flex-col g justify-center items-center text-white text-center ">
         <div className="flex-col gap-4">
           <h1 className="text-4xl lg:text-6xl font-extrabold mb-4">
-            ProjectTello
+            Work-Way
           </h1>
           <h3 className="text-lg lg:text-xl font-bold">
             Productivity, reimagined
