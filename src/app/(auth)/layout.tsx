@@ -20,7 +20,7 @@ export default function AuthLayout({
     if (userId) {
       setuserId(userId);
       console.log("onlayout", userId);
-      router.push("/dashboard");
+      router.push("/dashboard");      
     }
   }, [setuserId, router]);
 
