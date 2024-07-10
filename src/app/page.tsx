@@ -1,6 +1,7 @@
 import { SiGoogledocs } from "react-icons/si";
 import Image from 'next/image'
-export default function Home() {
+import HomeImage from '../../public/images/Home page Image.png'
+ export default function Home() {
   return (
     <>
       <div className="bg-indigo-900 max-h-full flex flex-col g justify-center items-center text-white text-center ">
@@ -32,7 +33,7 @@ export default function Home() {
         <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600  h-[80%] w-[80%] relative my-12 flex justify-center items-center rounded-lg">
           <Image
             className="w-[80%] h-[80%]  object-cover -translate-y-8 "
-            src="https://clickup.com/images/clickup-v3/CU_3.0_Teaser_LP_Task_View_Redesign.png"
+            src={HomeImage}
             alt="Example Image"
           />
         </div>
