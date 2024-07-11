@@ -14,22 +14,19 @@ import {
 } from "@/components/ui/sheet";
 import { MdOutlineSettings } from "react-icons/md";
 import { useRouter } from "next/navigation";
-
-import image from "../../../public/images/depositphotos_53989081-stock-photo-black-texture.jpg";
 import { useEdgeStore } from "../../lib/edgestore";
 import axios from "axios";
 import useBearerStore from "@/store";
 import axiosInstance from "../../lib/axios";
-import { Router } from "lucide-react";
-import Image from 'next/image'
+import Image from "next/image";
 
 function Profile() {
-  const [file, setFile] = React.useState<File>();
+  const [file, setFile] = useState<File | null>(null);
   const { edgestore } = useEdgeStore();
   const [imagePreview, setImagePreview] = useState("");
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement | null>(null);
-  //   zustand hooks
+
   const setImageUrl = useBearerStore((state) => state.setImageUrl);
   const setName = useBearerStore((state) => state.setUsername);
   const setEmail = useBearerStore((state) => state.setEmail);
@@ -37,51 +34,29 @@ function Profile() {
   const { username } = useBearerStore((state) => state.config);
   const { email } = useBearerStore((state) => state.config);
   const { imageUrl } = useBearerStore((state) => state.config);
-  let userId: string | null = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId") || "";
 
-  const [usernameInput, setUsernameInput] = useState("");
+  const [usernameInput, setUsernameInput] = useState(username || "");
 
-  //   zustand hooks
   useEffect(() => {
-    const userName = localStorage.getItem("username");
-    const emails = localStorage.getItem("email");
-    const imageUrls = localStorage.getItem("imageUrl");
+    const userName = localStorage.getItem("username") || "";
+    const emails = localStorage.getItem("email") || "";
+    const imageUrls = localStorage.getItem("imageUrl") || "";
 
-    setName(userName as string);
-    setEmail(emails as string);
-    setuserId(userId as string);
-    setImageUrl(imageUrls as string);
+    setName(userName);
+    setEmail(emails);
+    setuserId(userId);
+    setImageUrl(imageUrls);
+  }, [setEmail, setImageUrl, setName, setuserId, userId]);
 
-    // const storedUsername = localStorage.getItem("username");
-  }, [email, imageUrl,setEmail,setImageUrl,setName,setuserId,userId]);
-  //   setUsername(storedUsername);
-
-  //   const handleImageChange = (e: any) => {
-  //     const file = e.target.files[0];
-  //     if (file) {
-  //       setImage(file);
-  //       setImagePreview(URL.createObjectURL(file));
-  //     }
-  //   };
-  // console.log("imageurl", imageUrl);
   const handleSubmit = async () => {
-    // console.log("Changes saved!",usernameInput);
-
     try {
-      const data = {
-        username: usernameInput,
-        userId: userId,
-      };
-
-      // console.log("data",data);
+      const data = { username: usernameInput, userId };
 
       const response = await axiosInstance.post(`updateProfile`, data, {
         withCredentials: true,
       });
 
-      // console.log("response",response.data);
-
-      localStorage.removeItem("username");
       localStorage.setItem("username", response.data.username);
 
       if (response) {
@@ -127,53 +102,44 @@ function Profile() {
               className="bg-slate-100 rounded-lg py-3 px-3 hidden"
               ref={fileRef}
               onChange={(e) => {
-                setFile(e.target.files?.[0]);
+                setFile(e.target.files?.[0] || null);
               }}
             />
 
             {
               <Image
                 src={imageUrl}
+                height={200}
+                width={200}
                 alt="Profile Preview"
                 onClick={() => fileRef.current?.click()}
                 className="col-span-4 h-24 w-24 object-cover mt-2 mx-auto rounded-full"
               />
             }
-
             <button
               onClick={async () => {
                 if (file) {
                   const res = await edgestore.publicFiles.upload({
                     file,
                     onProgressChange: (progress) => {
-                      // you can use this to show a progress bar
                       console.log(progress);
                     },
                   });
-                  // you can run some server action or api here
-                  // to add the necessary data to your database
-                  // console.log("res edge store", res);
+
                   setImagePreview(res.url);
 
                   const data = {
-                    userId: userId,
+                    userId,
                     imageUrl: res.url,
                   };
-
-                  // console.log("data", data);
 
                   const response = await axios.post(
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/updateImage`,
                     data,
-                    {
-                      withCredentials: true,
-                    }
+                    { withCredentials: true }
                   );
 
-                  console.log("resdddcjd", response.data);
-
                   localStorage.setItem("imageUrl", response.data.profilePhoto);
-
                   setImageUrl(response.data.profilePhoto);
                 }
               }}
