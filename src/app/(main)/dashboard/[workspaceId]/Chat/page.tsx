@@ -146,7 +146,6 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
         time: response.data.createdAt,
       });
       // setMessage(response.data);
-
       // console.log("messagesReciverDetails", messages?.reciverDetails);
       // console.log("messages", messages?.message);
       // console.log("messages", messages);
@@ -195,7 +194,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
     );
     setSendMessage("");
     if (response) {
-      console.log("response", response.data);
+      // console.log("response", response.data);
       if (messages?.conversationId === "new") {
         setMessages((prev: any) => ({
           ...prev,
@@ -203,8 +202,6 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
           message: [...prev.message],
         }));
       }
-
-  
 
     }
   };
@@ -256,7 +253,6 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
                   workspaceId={params.workspaceId}
                   fetchMessage={fetchMessage}
                 />
-                {/* <p className="text-base font-light">Your Account</p> */}
               </div>
             </div>
 
@@ -265,7 +261,7 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
                 onChange={(e) => setQuery(e.target.value)}
                 className="px-12 py-2 rounded-lg bg-workspace-gray text-white  focus:border-0 outline-none"
                 placeholder="search..."
-              />
+              />  
               <div className="fixed">
                 {/* <Image className="absolute  top-22 left-55" height={20} width={20} src={searchIcon} alt="" />  */}
                 <IoSearch
