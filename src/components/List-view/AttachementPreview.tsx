@@ -29,7 +29,7 @@ export function AttachementPreview({
       return (
         <Image 
           alt="Preview"
-          src={attachment.startsWith('data:image/') ? attachment : `data:image/png;base64,${attachment}`}
+          src={attachment}
           width={500}
           height={400}
           className="ml-48"
@@ -41,7 +41,7 @@ export function AttachementPreview({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="flex gap-2 mt-3  rounded-md cursor-pointer border h-10 w-4/5">
+        <div className="flex gap-2 mt-3 rounded-md cursor-pointer border h-10 w-4/5">
           <HiDocumentArrowUp />
           <p className="text-white">{orginalName}</p>
         </div>
