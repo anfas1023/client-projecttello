@@ -56,6 +56,8 @@ export default function Login() {
       password,
     };
   console.log("process.env.NEXT_PUBLIC_BACKEND_URL",process.env.NEXT_PUBLIC_BACKEND_URL)
+  console.log("process.env.NEXT_PUBLIC_BACKEND_URL",process.env.NEXT_PUBLIC_BACKEND_URL)
+
     setLoading(true)
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, data, {
