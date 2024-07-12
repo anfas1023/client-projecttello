@@ -91,7 +91,7 @@ function SignUpForm() {
         role: "member",
         workspaceId: workspaceId,
       };
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}`, data);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signup`, data);
 
       if (response) {
         toast("OTP", {
@@ -129,7 +129,7 @@ function SignUpForm() {
         <Card className="w-full max-w-md h-5/6">
           <CardHeader>
             <CardTitle className="font-bold text-red-700 capitalize text-2xl text-center">
-              Sign-up
+              Employee-SignUp
             </CardTitle>
           </CardHeader>
           <CardContent>
