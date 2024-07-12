@@ -59,7 +59,7 @@ export function Attachement({
       };
 
       try {
-        const response = await axios.post(`http://localhost:5000/chat/addAttachentToChat`, data, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/addAttachentToChat`, data, {
           withCredentials: true,
         });
 

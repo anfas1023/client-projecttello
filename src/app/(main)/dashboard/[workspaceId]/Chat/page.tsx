@@ -277,7 +277,6 @@ const Chat = ({ params }: { params: { workspaceId: string } }) => {
             </div>
           </div>
           <div className="mx-7">
-            {/* <div className="text-white text-center text-lg">Messages</div> */}
             <div className="mb-8">
               {conversations.length > 0 ? (
                 conversations
