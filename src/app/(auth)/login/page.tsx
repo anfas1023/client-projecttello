@@ -26,20 +26,19 @@ export default function Login() {
   const setUsername=useBearerStore((state)=>state.setUsername)
 
   const handleGoogleLogin = () => {
-    window.open(`http://localhost:5000/auth/google/callback`, "_self");
+    window.open(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google/callback`, "_self");
   };
 
   const handleGithubLogin = () => {
-    window.open(`http://localhost:5000/auth/github/callback`, "_self");
+    window.open(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/github/callback`, "_self");
   };
 
   const router = useRouter();
-
+  console.log("process.env.NEXT_PUBLIC_BACKEND_URL",process.env.NEXT_PUBLIC_BACKEND_URL)
  useEffect(()=>{
   const userId=localStorage.getItem("userId");
   if(userId){
     console.log("onLogin",userId); 
-    
     return  router.push('/dashboard');  
   }
  },[router])
@@ -55,7 +54,7 @@ export default function Login() {
       email,
       password,
     };
-  console.log("process.env.NEXT_PUBLIC_BACKEND_URL",process.env.NEXT_PUBLIC_BACKEND_URL)
+
   console.log("process.env.NEXT_PUBLIC_BACKEND_URL",process.env.NEXT_PUBLIC_BACKEND_URL)
 
     setLoading(true)

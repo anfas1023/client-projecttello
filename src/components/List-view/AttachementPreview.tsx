@@ -46,6 +46,7 @@ export function AttachementPreview({
       );
     }
   };
+  console.log("attachment:",attachement,">>",orginalName)
   return (
     <Dialog>
       <DialogTrigger asChild>
