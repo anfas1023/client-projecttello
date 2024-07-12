@@ -1,19 +1,12 @@
-import React, { useState, ChangeEvent, useEffect } from "react";
-
-import { Button } from "@/components/ui/button";
+import React from "react";
+import { HiDocumentArrowUp } from "react-icons/hi2";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
+  DialogHeader,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { HiDocumentArrowUp } from "react-icons/hi2";
-import Image from 'next/image'
 
 export function AttachementPreview({
   attachement,
@@ -24,8 +17,6 @@ export function AttachementPreview({
 }) {
   const renderPreview = (attachment: string, orginalName: string) => {
     if (orginalName.endsWith(".pdf")) {
-      // console.log("here");
-
       return (
         <embed
           src={attachment}
@@ -36,9 +27,9 @@ export function AttachementPreview({
       );
     } else {
       return (
-        <Image
+        <Image 
           alt="Preview"
-          src={attachment}
+          src={attachment.startsWith('data:image/') ? attachment : `data:image/png;base64,${attachment}`}
           width={500}
           height={400}
           className="ml-48"
@@ -46,27 +37,18 @@ export function AttachementPreview({
       );
     }
   };
-  console.log("attachment:",attachement,">>",orginalName)
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex gap-2 mt-3  rounded-md cursor-pointer border h-10 w-4/5">
-  <HiDocumentArrowUp />
-  <p className="text-white">{orginalName}</p>
-</div>
+          <HiDocumentArrowUp />
+          <p className="text-white">{orginalName}</p>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[985px] bg-chat">
-        <DialogHeader>
-          {/* <DialogTitle>Preview</DialogTitle> */}
-        </DialogHeader>
+        <DialogHeader>{/* <DialogTitle>Preview</DialogTitle> */}</DialogHeader>
         <div className="grid gap-4 py-4">
-          {/* <img
-            alt="Preview"
-            src={attachement}
-            width={550}
-            height={550}
-            className=""
-          /> */}
           {renderPreview(attachement, orginalName)}
         </div>
       </DialogContent>
