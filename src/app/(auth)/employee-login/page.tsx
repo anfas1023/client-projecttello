@@ -102,7 +102,7 @@ function SignUpForm() {
           },
         });
 
-        router.replace("/success");
+        router.replace("/sucess");
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
