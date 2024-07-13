@@ -95,7 +95,7 @@ function SignUpForm() {
 
       if (response) {
         toast("OTP", {
-          description: "OTP sent to gmail successfully",
+          description: "Verification mail sented sent to gmail successfully",
           action: {
             label: "Undo",
             onClick: () => console.log("Undo"),

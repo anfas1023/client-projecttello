@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import publish from "../../../public/images/document.png";
-import copyIcon from "../../../public/images/copy.png"; // Assuming you have a copy icon
+import copyIcon from "../../../public/images/copy.png";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa";
 import { toast } from "sonner";
@@ -29,7 +29,7 @@ export function PublishButton({
 
   const [isPublished, setIsPublished] = useState(false);
   const copyToClipboard = useCallback(() => {
-    const url = `http://localhost:3000/preview/${workspaceId}/${folderId}/${boardId}`;
+    const url = `https://www.work-way.site/preview/${workspaceId}/${folderId}/${boardId}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {
@@ -65,10 +65,6 @@ export function PublishButton({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]  bg-chat border-0">
         <DialogHeader>
-          {/* <DialogTitle>Edit profile</DialogTitle> */}
-          {/* <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription> */}
         </DialogHeader>
         <div className="flex flex-col justify-center items-center gap-2">
           <Image src={publish} height={30} className="mx-auto" width={30} alt="" />
