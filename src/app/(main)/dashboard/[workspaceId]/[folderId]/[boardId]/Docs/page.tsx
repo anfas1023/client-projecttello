@@ -5,7 +5,6 @@ import { CollaborativeEditor } from "../../../../../../../components/TextEditor/
 import WorkspcaeSidebar from "@/components/Workspace-sedebar/Workspace-sidebar";
 import Image from "next/image";
 import Car from "../../../../../../../../public/images/pexels-abdulwahab-alawadhi-5063630.jpg";
-import publish from "../../../../../../../../public/images/document.png";
 import { PublishButton } from "@/components/publish/PublishButton";
 import { useState } from "react";
 
@@ -19,18 +18,19 @@ export default function DocsPage({ params }: any) {
   };
 
   return (
-    <>
-      {/* <div className="h-full"> */}
+    <div className="relative h-full w-full">
       <WorkspcaeSidebar
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         toggleSidebar={toggleSidebar}
         workspaceId={workspaceId}
       />
-      <div className="w-full h-full absolute bg-workspace-gray flex flex-col">
-        <div
-          className={`ml-4 ${isOpen ? "ml-52" : "ml-5"} flex flex-col h-full`}
-        >
+      <div
+        className={`w-full h-full absolute bg-workspace-gray flex flex-col ${
+          isOpen ? "ml-52" : "ml-5"
+        }`}
+      >
+        <div className="flex flex-col h-full">
           <div className="flex ml-16 items-center">
             <p className="text-white">
               {workspaceId}/{folderId}/{boardId}
@@ -41,9 +41,9 @@ export default function DocsPage({ params }: any) {
               boardId={boardId}
             />
           </div>
-          {/* <div className="absolute top-16 inset-0">
+          <div className="relative flex-1">
             <Image src={Car} layout="fill" objectFit="cover" alt="" />
-          </div> */}
+          </div>
           <Room
             roomId={`workspace-${workspaceId}-folder-${folderId}-board-${boardId}`}
           >
@@ -51,7 +51,6 @@ export default function DocsPage({ params }: any) {
           </Room>
         </div>
       </div>
-      {/* </div> */}
-    </>
+    </div>
   );
 }

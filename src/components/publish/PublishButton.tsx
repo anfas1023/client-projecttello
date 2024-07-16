@@ -29,13 +29,11 @@ export function PublishButton({
 
   const [isPublished, setIsPublished] = useState(false);
   const copyToClipboard = useCallback(() => {
-    const url = `https://www.work-way.site/preview/${workspaceId}/${folderId}/${boardId}`;
+    const url = `https://www.work-way.site/preview/${workspaceId}/${folderId}/${boardId}`
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        // alert("URL copied to clipboard");
     toast.success("Link copy To clipboard",{position:"top-right",  className: "my-custom-toast-class"})
-
       })
       .catch((err) => {
         console.error("Failed to copy: ", err);
@@ -44,7 +42,7 @@ export function PublishButton({
 
   const handlePublish = () => {
     setIsPublished(true);
-    // Add logic to publish the note here
+
 
     toast.success("Published",{position:"bottom-left"})
   };
