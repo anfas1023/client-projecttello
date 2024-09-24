@@ -141,111 +141,103 @@ try {
 
   return (
     <>
-      <div className="w-full h-screen flex items-start justify-start ">
-        <div className="h-screen w-7/12  flex flex-col  items-center justify-center ">
-          <Card className="w-full max-w-md h-5/6 ">
+<div className="w-full h-screen flex flex-col lg:flex-row items-start justify-start">
+        <div className="h-auto lg:h-screen w-full lg:w-7/12 flex flex-col items-center justify-center">
+          <Card className="w-full max-w-md">
             <CardHeader>
               <CardTitle className="font-bold text-red-700 capitalize text-2xl text-center">
-                SignUp
+                Sign Up
               </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col space-y-2">
-                    <Label htmlFor="name">Username</Label>
+                    <Label htmlFor="username">Username</Label>
                     <Input
                       name="username"
-                      id="Username"
+                      id="username"
                       className="p-5 bg-gray-200"
                       placeholder="Enter Your Username.."
                     />
                     {error && (
-                      <p className="text-red-700 text-left text-sm font-semibold ">
+                      <p className="text-red-700 text-left text-sm font-semibold">
                         {error}
                       </p>
                     )}
                   </div>
-                  <div className="flex flex-col mt-2 space-y-2">
-                    <Label htmlFor="framework">Email</Label>
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="email">Email</Label>
                     <Input
                       name="email"
-                      className="p-5  bg-gray-200"
+                      className="p-5 bg-gray-200"
                       id="email"
                       placeholder="Enter your Email.."
                     />
                     {emailError && (
-                      <p className="text-red-700 text-left text-sm font-semibold ">
+                      <p className="text-red-700 text-left text-sm font-semibold">
                         {emailError}
                       </p>
                     )}
-                    
                   </div>
-                  <div className="flex flex-col mt-2 space-y-2">
-                    <Label htmlFor="framework">PhoneNumber</Label>
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="phonenumber">Phone Number</Label>
                     <Input
                       name="phonenumber"
                       className="p-5 bg-gray-200"
-                      id="Phonenumber"
-                      placeholder="Enter your phonenumber.."
+                      id="phonenumber"
+                      placeholder="Enter your Phone Number.."
                     />
                     {phonenumberError && (
-                      <p className="text-red-700 text-left text-sm font-semibold ">
+                      <p className="text-red-700 text-left text-sm font-semibold">
                         {phonenumberError}
                       </p>
                     )}
                   </div>
-
-
-                  <div className="flex flex-col  mt-2 space-y-2">
-                    <Label htmlFor="name">Password</Label>
-                    <Input 
-                      name="password" 
-                      id="Password"
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      name="password"
+                      id="password"
                       className="p-5 bg-gray-200"
-                      placeholder="Enter Your password.."
+                      placeholder="Enter Your Password.."
                     />
                     {password && (
-                      <p className="text-red-700 text-left text-sm font-semibold ">
+                      <p className="text-red-700 text-left text-sm font-semibold">
                         {password}
                       </p>
                     )}
                   </div>
-
-
-
-                  <div className="flex flex-col  mt-2 space-y-2">
-                    <Label htmlFor="name">ConfirmPassword</Label>
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="confirmpassword">Confirm Password</Label>
                     <Input
                       name="confirmpassword"
-                      id="Password"
+                      id="confirmpassword"
                       className="p-5 bg-gray-200"
-                      placeholder="Enter Confirmpassword.."
+                      placeholder="Enter Confirm Password.."
                     />
-
                     {ConfirmError && (
-                      <p className="text-red-700 text-left text-sm font-semibold ">
+                      <p className="text-red-700 text-left text-sm font-semibold">
                         {ConfirmError}
                       </p>
                     )}
                   </div>
-
                   <CardFooter className="flex flex-col justify-center gap-5 items-center">
-                    <Button className="px-28 bg-blue-900">{loading ? "Loading..." :"SignUp"}</Button>
+                    <Button className="px-28 bg-blue-900 w-full">{loading ? "Loading..." : "Sign Up"}</Button>
                   </CardFooter>
                 </div>
               </form>
             </CardContent>
           </Card>
         </div>
-        <div className=" h-screen">
-        <Image
-           src={signUpImage}
-            className="h-full  object-cover"
+        <div className="h-auto lg:h-screen w-full lg:w-5/12">
+          <Image
+            src={signUpImage}
+            className="h-full w-full object-cover"
             width={900}
             height={490}
-            alt="Images"
-          ></Image>
+            alt="Sign Up Illustration"
+          />
         </div>
       </div>
     </>

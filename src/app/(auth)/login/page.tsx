@@ -93,81 +93,81 @@ export default function Login() {
 
   return (
     <>
-      <div className="w-full  flex items-start justify-start ">
-        <div className="mt-10 w-5/12  flex flex-col  items-center justify-center">
-          <Card className="w-full max-w-md h-4/5 ">
-            <CardHeader>
-              <CardTitle className="text-center p-3">Welcome Back!</CardTitle>
-              <CardDescription className="text-2xl text-center  pb-3 font-semibold text-black">
-                LogIn
-              </CardDescription>
-              <CardDescription className="">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.{" "}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit}>
-                <div className="grid w-full items-center gap-4">
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="name">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      className="p-5 bg-gray-200"
-                      placeholder="Enter Your Email.."
-                    />
-                  </div>
-                  <div className="flex flex-col mt-2 space-y-2">
-                    <Label htmlFor="framework">Password</Label>
-                    <Input
-                      name="password"
-                      className="p-5 bg-gray-200"
-                      id="password"
-                      placeholder="Enter your Password.."
-                    />
-                  </div>
-                  <Link href="/forgotpassword">
-                    <p className="text-right">Forgot Password?</p>
-                  </Link>
-                </div>
-                <CardFooter className="flex flex-col justify-center gap-5 items-center">
-                  <Button className="px-28 bg-blue-900">{loading ? "Loading..." :"Login"}</Button>
-                  <div className="flex gap-3">
-                    <p className="text-gray-600 underline font-medium">
-                      Dont Have An Account?
-                    </p>
-                    <Link href="/signup">
-                      <span className="text-indigo-500 font-semibold no-underline">
-                        SignUp
-                      </span>
-                    </Link>
-                  </div>
-                </CardFooter>
-              </form>
-              <div className="flex gap-5 items-center justify-center ">
-                <Button onClick={handleGoogleLogin} className="px-10">
-                  Google
-                </Button>
-                <Button onClick={handleGithubLogin} className="px-10">
-                  Github
-                </Button>
-              </div>
-            </CardContent>
+    <div className="w-full flex flex-col lg:flex-row items-start justify-start">
+  <div className="mt-10 w-full lg:w-5/12 flex flex-col items-center justify-center">
+    <Card className="w-full max-w-md h-auto lg:h-4/5">
+      <CardHeader>
+        <CardTitle className="text-center p-3">Welcome Back!</CardTitle>
+        <CardDescription className="text-2xl text-center pb-3 font-semibold text-black">
+          Log In
+        </CardDescription>
+        <CardDescription>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit}>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                className="p-5 bg-gray-200"
+                placeholder="Enter Your Email.."
+              />
+            </div>
+            <div className="flex flex-col mt-2 space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                name="password"
+                className="p-5 bg-gray-200"
+                id="password"
+                placeholder="Enter your Password.."
+              />
+            </div>
+            <Link href="/forgotpassword">
+              <p className="text-right">Forgot Password?</p>
+            </Link>
+          </div>
+          <CardFooter className="flex flex-col justify-center gap-5 items-center">
+            <Button className="w-full px-8 bg-blue-900">
+              {loading ? "Loading..." : "Login"}
+            </Button>
+            <div className="flex gap-3">
+              <p className="text-gray-600 underline font-medium">
+                Don’t Have An Account?
+              </p>
+              <Link href="/signup">
+                <span className="text-indigo-500 font-semibold no-underline">
+                  Sign Up
+                </span>
+              </Link>
+            </div>
+          </CardFooter>
+        </form>
+        <div className="flex gap-5 items-center justify-center mt-4">
+          <Button onClick={handleGoogleLogin} className="px-10">
+            Google
+          </Button>
+          <Button onClick={handleGithubLogin} className="px-10">
+            Github
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+  <div className="h-auto lg:h-screen w-full lg:w-7/12">
+    <Image
+      src={LoginImage}
+      className="h-full w-full object-cover"
+      width={900}
+      height={240}
+      alt="Images"
+    />
+  </div>
+</div>
 
-            {/* <hr className="bg-gray-200 my-3 w-4/12 "/> */}
-          </Card>
-        </div>
-        <div className="h-screen">
-          <Image
-           src={LoginImage}
-            className="h-full  object-cover"
-            width={900}
-            height={240}
-            alt="Images"
-          ></Image>
-        </div>
-      </div>
     </>
   );
 }
