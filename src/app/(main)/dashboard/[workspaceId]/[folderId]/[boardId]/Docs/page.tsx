@@ -20,37 +20,40 @@ export default function DocsPage({ params }: any) {
 
   return (
     <>
-      {/* <div className="h-full"> */}
       <WorkspcaeSidebar
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         toggleSidebar={toggleSidebar}
         workspaceId={workspaceId}
       />
-      <div className="w-full h-full absolute bg-workspace-gray flex flex-col">
-        <div
-          className={`ml-4 ${isOpen ? "ml-52" : "ml-5"} flex flex-col h-full`}
-        >
-          <div className="flex ml-16 items-center">
-            <p className="text-white">
-              {workspaceId}/{folderId}/{boardId}
-            </p>
-            <PublishButton
-              workspaceId={workspaceId}
-              folderId={folderId}
-              boardId={boardId}
-            />
+    <div className="w-full h-full absolute bg-workspace-gray flex flex-col">
+      <div className={`flex flex-col transition-all duration-300 ${isOpen ? "ml-52" : "ml-4"} overflow-y-auto`}>
+        {/* Container with image and docs page */}
+        <div className="w-full flex flex-col">
+        <div className="flex flex-col items-start mt-4 ml-16">
+      <p className="text-white">
+        {workspaceId}/{folderId}/{boardId}
+      </p>
+      <PublishButton
+        workspaceId={workspaceId}
+        folderId={folderId}
+        boardId={boardId}
+      />
+    </div>
+ 
+          <div className="relative w-full h-60"> 
+            <Image src={Car} layout="fill" objectFit="cover" alt="Workspace Image" />
           </div>
-          <div className="absolute top-16 inset-0">
-            <Image src={Car} layout="fill" objectFit="cover" alt="" />
+          {/* Collaborative Editor below the image */}
+          <div className="flex-grow">
+            <Room roomId={`workspace-${workspaceId}-folder-${folderId}-board-${boardId}`}>
+              <CollaborativeEditor />
+            </Room>
           </div>
-          <Room
-            roomId={`workspace-${workspaceId}-folder-${folderId}-board-${boardId}`}
-          >
-            <CollaborativeEditor />
-          </Room>
         </div>
       </div>
+    </div>
+
       {/* </div> */}
     </>
   );

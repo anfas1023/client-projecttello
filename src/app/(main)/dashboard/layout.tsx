@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DashboardSetUp from "@/components/dashboard/dashboard-setup";
 import { useRouter } from "next/navigation";
-import {toast} from 'sonner'
+import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { WorkspaceStore } from "@/store";
 import SideNavbar from "@/components/dashboard/SideNav";
@@ -23,13 +23,18 @@ export type WorkspaceType = {
   description: string;
   workspaceId: string;
   _id: string;
-  inviteMembers:{email:string,role:string,userId:string,userName:string}[],
-  workspaceOwner:{
-    email:string,
-    userName:string,
-    role:string,
-    ownerId:string
-  }
+  inviteMembers: {
+    email: string;
+    role: string;
+    userId: string;
+    userName: string;
+  }[];
+  workspaceOwner: {
+    email: string;
+    userName: string;
+    role: string;
+    ownerId: string;
+  };
 };
 
 const metadata: Metadata = {
@@ -54,43 +59,35 @@ export default function RootLayout({
   const showSidebar = pathname === "/dashboard";
   const [loading, setLoading] = useState<boolean>(true);
 
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const response = await axios.get("http://localhost:5000/fetchUser", {
+          withCredentials: true,
+        });
 
-
-
-
-  useEffect(()=>{
-
-  async  function fetchUserData(){
-      try{
-  const response=await axios.get('http://localhost:5000/fetchUser',{
-    withCredentials:true
-  })
-
-  if(response.data){
-    localStorage.setItem("userId",response.data.userId);
-    localStorage.setItem("email",response.data.email);
-    localStorage.setItem("username",response.data.username);
-  return
-  }
-
-      }catch(error){
+        if (response.data) {
+          localStorage.setItem("userId", response.data.userId);
+          localStorage.setItem("email", response.data.email);
+          localStorage.setItem("username", response.data.username);
+          return;
+        }
+      } catch (error) {
         if (axios.isAxiosError(error) && error.response?.data) {
           toast.error(error.response.data.error, { position: "top-left" });
         } else {
           console.log("An unexpected error occurred:", error);
         }
-      
       }
     }
-    const userId=localStorage.getItem("userId");
-    const email=localStorage.getItem("email");
-    const username=localStorage.getItem("username")
+    const userId = localStorage.getItem("userId");
+    const email = localStorage.getItem("email");
+    const username = localStorage.getItem("username");
 
-    if(!userId && !email && !username ){
+    if (!userId && !email && !username) {
       fetchUserData();
     }
-   
-  },[router])
+  }, [router]);
 
   useEffect(() => {
     async function fetchWorkspace() {
@@ -98,8 +95,9 @@ export default function RootLayout({
         setLoading(true);
         console.log("here1");
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/getAllWorkspace/`,{
-            withCredentials:true
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/getAllWorkspace/`,
+          {
+            withCredentials: true,
           }
         );
 
@@ -109,22 +107,18 @@ export default function RootLayout({
             userId: workspace.userId,
             description: workspace.description,
             workspaceId: workspace._id,
-            inviteMembers:workspace.inviteMembers,
-            workpspaceOwner:workspace.workspaceOwner
-          
+            inviteMembers: workspace.inviteMembers,
+            workpspaceOwner: workspace.workspaceOwner,
           });
         });
-        console.log("response1",response.data)
+        console.log("response1", response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching workspace:", error);
         setLoading(false);
       }
     }
-      fetchWorkspace();
-  
-
-  
+    fetchWorkspace();
   }, [addWorkspace]);
 
   useEffect(() => {
@@ -132,16 +126,13 @@ export default function RootLayout({
       try {
         setLoading(true);
         console.log("here1");
-        
+
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/workspace/getAllWorkspaceByInvitedMembers/`,
           {
-            withCredentials:true
+            withCredentials: true,
           }
         );
-
-      
-
 
         if (response) {
           response.data.forEach((workspace: WorkspaceType) => {
@@ -149,45 +140,40 @@ export default function RootLayout({
               workspacename: workspace.workspacename,
               userId: workspace.userId,
               description: workspace.description,
-              inviteMembers:workspace.inviteMembers,
+              inviteMembers: workspace.inviteMembers,
               workspaceId: workspace._id,
-              workpspaceOwner:workspace.workspaceOwner
+              workpspaceOwner: workspace.workspaceOwner,
             });
           });
         }
-      
 
         setLoading(false);
       } catch (error) {
-       
-        console.error("Error fetching invited workspaces:", error); 
-        setLoading(false); 
+        console.error("Error fetching invited workspaces:", error);
+        setLoading(false);
       }
     }
 
     const email = localStorage.getItem("email");
-      fetchInvitedWorkspace();
-      console.error("Email not found in localStorage");
-   
+    fetchInvitedWorkspace();
+    console.error("Email not found in localStorage");
   }, [addWorkspace]);
 
   const handleUpdate = (data: WorkspaceType) => {
     setWorkSpace([data]);
   };
 
-
   const [isOpen, setIsOpen] = useState(true);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(()=>{
-    const userId=localStorage.getItem('userId');
-     if(!userId){
-      router.replace('/login')
-     }
-   
-  },[router])
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      router.replace("/login");
+    }
+  }, [router]);
 
   return (
     <>
@@ -205,14 +191,11 @@ export default function RootLayout({
           </div>
         </div>
       ) : !Workspaces[0] ? (
-<div className="bg-zinc-900 w-full h-screen flex justify-center items-center">
-  <DashboardSetUp onUpdate={handleUpdate} />
-</div>
-
-      ) : (
-        <div className="flex">
-          {children}
+        <div className="bg-zinc-900 w-full h-screen flex justify-center items-center">
+          <DashboardSetUp onUpdate={handleUpdate} />
         </div>
+      ) : (
+        <div className="flex">{children}</div>
       )}
     </>
   );
